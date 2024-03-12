@@ -1,7 +1,7 @@
 // ---------------------------------------------------------  
-// MapOutput.cs  
-// マップ配列にTileMapの状態を出力する
-// 作成日:  3/11
+// NewMapOut.cs  
+//   
+// 作成日:  3/12
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
@@ -9,11 +9,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 
-public class MapOutput : MonoBehaviour
+public class NewMapOut : MonoBehaviour
 {
 
     #region 変数  
-
     [SerializeField, Tooltip("マップ配列を保持しているスクリプト")]
     private MapData _mapData = default;
 
@@ -28,13 +27,16 @@ public class MapOutput : MonoBehaviour
     private int _vartical = default;
     [Tooltip("タイルマップのX座標で一番小さい値")]
     private int _horizontalMin = default;
-    [Tooltip("タイルマップのY座標で一番大きい値")]
-    private int _varticalMax = default;
+    [Tooltip("タイルマップのY座標で一番小さい値")]
+    private int _varticalMin = default;
     [Tooltip("配列が0から始まるため、引く数字")]
     private const int CONST_MINAS_ONE = -1;
 
     [Tooltip("曲がり角の座標")]
     private List<Vector2Int> _curvePos = new List<Vector2Int>();
+
+    [Tooltip("ルート探索スクリプト")]
+    private NewMapRoute _newMapRoute = default;
 
     #endregion
 
@@ -49,7 +51,6 @@ public class MapOutput : MonoBehaviour
     /// </summary>  
     void Awake()
      {
-        Output();
      }
   
      /// <summary>  
@@ -57,7 +58,7 @@ public class MapOutput : MonoBehaviour
      /// </summary>  
      void Start ()
      {
-  
+        Output();
      }
   
      /// <summary>  
@@ -65,6 +66,7 @@ public class MapOutput : MonoBehaviour
      /// </summary>  
      void Update ()
      {
+
      }
 
 
@@ -72,17 +74,22 @@ public class MapOutput : MonoBehaviour
     /// ボタンが押されたらタイルマップを配列に落としこむ
     /// </summary>
     public void Output() {
+        //左下を原点にする
         BoundsInt bounds = _tileMap.cellBounds;
         //タイルマップの一番左と一番下の座標を格納
-        _horizontalMin = bounds.min.x;
-        _varticalMax = bounds.max.y;
+        _horizontalMin = bounds.min.x;  
+        _varticalMin = bounds.min.y; 
+        //0からどのくらい離れているか
+        int xDistance = -_horizontalMin;
+        int yDistance = -_varticalMin;
         //タイルマップのサイズを調べる
-        _horizontal = bounds.max.x - _horizontalMin;
-        _vartical = _varticalMax - bounds.min.y;
+        _horizontal = xDistance + bounds.max.x;
+        _vartical = yDistance + bounds.max.y;
+        Debug.LogError("a:"+_vartical+""+ _horizontal);
         //タイルマップの情報のサイズに配列を変更
-        _mapData.ArraySizeChange(_horizontal, _vartical);
+        _mapData.ArraySizeChange(_vartical, _horizontal);
 
-        //配列を変更
+        //タイルマップのすべてのタイルの枚数繰り返す
         foreach (Vector3Int pos in _tileMap.cellBounds.allPositionsWithin) {
             // タイルが無かったら
             if (!_tileMap.HasTile(pos)) {
@@ -94,13 +101,13 @@ public class MapOutput : MonoBehaviour
             foreach (Tile tile in _tileType) {
                 // スプライトが一致しているか判定
                 if (_tileMap.GetTile(pos) == tile) {
+                    Debug.LogWarning("" + (bounds.max.y) +":"+ (pos.x + xDistance));
                     // 特定のスプライトと一致している場合は配列のそのタイルに対応した数字を格納
-                    _mapData.MapDataArray[_varticalMax - pos.y + CONST_MINAS_ONE, pos.x - _horizontalMin] = index;
+                    _mapData.MapDataArray[bounds.max.y-1 - pos.y, pos.x + xDistance] = index;
                     break;
                 }
                 index++;
             }
-
         }
 
         // 配列を出力するテスト
@@ -114,19 +121,9 @@ public class MapOutput : MonoBehaviour
         }
         print("Field------------------------------------------");
 
-        //配列を使って経路探索
-
-        //ポジション配列が帰ってくるため、それをタイルマップの座標に変換
-        //foreach (Vector3Int pos in _tileMap.cellBounds.allPositionsWithin) {
-        //    // タイルが無かったら
-        //    if (!_tileMap.HasTile(pos)) {
-        //        //処理を中断
-        //        return;
-        //    }
-        //    //配列に追加
-        //    //_curvePos.Add(new Vector2Int(0,0));
-        //    //_mapData.MapDataArray[_varticalMax - pos.y + CONST_MINAS_ONE, pos.x - _horizontalMin] =
-        //}
+        //ルートを探索する
+        _newMapRoute = new NewMapRoute(_mapData.MapDataArray.GetLength(0), _mapData.MapDataArray.GetLength(1),_mapData);
+        //配列からglobalに変換
     }
     #endregion
 }

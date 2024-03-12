@@ -53,7 +53,7 @@ public class MapData : MonoBehaviour
     /// <summary>
     /// 送られてきた情報のサイズにマップを変更する
     /// </summary>
-    public void ArraySizeChange(int horizontal , int vartical) {
+    public void ArraySizeChange(int vartical,int horizontal ) {
         _mapDataArray = new int[vartical, horizontal];
     }
 

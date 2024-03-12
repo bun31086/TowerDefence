@@ -6,7 +6,7 @@
 // ---------------------------------------------------------  
 using UnityEngine;
 using UnityEditor;
-[CustomEditor(typeof(MapOutput))]
+[CustomEditor(typeof(NewMapOut))]
 public class MapOutputEditor : Editor {
 
     #region 変数  
@@ -27,7 +27,7 @@ public class MapOutputEditor : Editor {
         //もしボタンが押されたら
         if (GUILayout.Button("タイルマップを出力")) {
             //MapOutputのOutput処理を実行
-            MapOutput mapOutput = (MapOutput)target;
+            NewMapOut mapOutput = (NewMapOut)target;
             mapOutput.Output();
         }
     }
