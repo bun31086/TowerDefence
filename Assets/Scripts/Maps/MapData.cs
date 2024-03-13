@@ -5,14 +5,13 @@
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
 
-public class MapData : MonoBehaviour
+public class MapData : SingletonMonoBehaviour<MapData>
 {
 
     #region 変数  
 
-    [Tooltip("Map格納配列")]
+    //Map格納配列
     private int[,] _mapDataArray = default;
 
 
@@ -27,28 +26,6 @@ public class MapData : MonoBehaviour
     #endregion
 
     #region メソッド  
-
-    /// <summary>  
-    /// 初期化処理  
-    /// </summary>  
-    void Awake()
-     {
-     }
-  
-     /// <summary>  
-     /// 更新前処理  
-     /// </summary>  
-     void Start ()
-     {
-  
-     }
-  
-     /// <summary>  
-     /// 更新処理  
-     /// </summary>  
-     void Update ()
-     {
-     }
 
     /// <summary>
     /// 送られてきた情報のサイズにマップを変更する
