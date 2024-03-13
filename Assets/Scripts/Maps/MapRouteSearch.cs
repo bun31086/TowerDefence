@@ -1,8 +1,8 @@
 // ---------------------------------------------------------  
-// NewMapRoute.cs  
-//   
-// 作成日:  
-// 作成者:  
+// MapRouteSearch.cs  
+// 敵の経路探索
+// 作成日:  3/13
+// 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using System.Collections;
 using System.Collections.Generic;
@@ -31,8 +31,6 @@ public class MapRouteSearch
     private int _curveCount = 0;
     //曲がり角の座標格納配列
     private List<int[]> _curvePosition = new List<int[]>();
-    //曲がり角確認用(0:上 1:左 2:下 3:右)
-    private int _index = default;
     //マップ配列のy軸の要素数
     private int _yLength = default;
     //マップ配列のx軸の要素数
@@ -41,9 +39,9 @@ public class MapRouteSearch
     private const int CONST_Y_NUMBER = 0;
     //配列のX座標の配列番号
     private const int CONST_X_NUMBER = 1;
-
+    //調べている座標
     private int[] _searchPos = new int[2];
-
+    //エラー対策用変数
     private int _error = 0;
 
     //進む方向

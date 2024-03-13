@@ -1,6 +1,6 @@
 // ---------------------------------------------------------  
 // NewMapOut.cs  
-//   
+// タイルマップを配列に格納
 // 作成日:  3/12
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
@@ -35,18 +35,23 @@ public class MapOutput : MonoBehaviour
     private MapRouteSearch _mapRouteSearch = default;
     [Tooltip("曲がり角の数")]
     private int _curveCount = default;
+
     #endregion
 
     #region プロパティ  
+    public Vector3[] CurvePos {
+        get => _curvePos;
+        set => _curvePos = value;
+    }
 
     #endregion
 
     #region メソッド  
-  
-     /// <summary>  
-     /// 更新前処理  
-     /// </summary>  
-     void Start ()
+
+    /// <summary>  
+    /// 更新前処理  
+    /// </summary>  
+    void Start ()
      {
         Output();
      }
@@ -109,10 +114,10 @@ public class MapOutput : MonoBehaviour
         //曲がり角の数を取得する
         _curveCount = _mapRouteSearch.CurvePosition.Count;
         //曲がり角の数と同じ要素数の配列を生成
-        _curvePos = new Vector3[_curveCount];
+        CurvePos = new Vector3[_curveCount];
         //生成した配列にタイルマップの座標をワールド座標で格納
         for (int index = 0; index < _curveCount; index++) {
-            _curvePos[index] = _tileMap.GetCellCenterWorld(new Vector3Int(_mapRouteSearch.CurvePosition[index][1] + _horizontalMin, -_mapRouteSearch.CurvePosition[index][0] + _varticalMax));
+            CurvePos[index] = _tileMap.GetCellCenterWorld(new Vector3Int(_mapRouteSearch.CurvePosition[index][1] + _horizontalMin, -_mapRouteSearch.CurvePosition[index][0] + _varticalMax));
         }
     }
     #endregion
