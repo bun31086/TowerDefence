@@ -23,7 +23,11 @@ public class NewMapRoute
     [Tooltip("探索開始地点")]
     private Vector2Int _searchedPos = default;
     [Tooltip("配列で道を示す数字")]
-    private int _roadInt = 1;
+    private const int CONST_ROAD_NUMBER = 1;
+    [Tooltip("配列でスタートを示す数字")]
+    private const int CONST_START_NUMBER = 2;
+    [Tooltip("配列でゴールを示す数字")]
+    private const int CONST_GOAL_NUMBER = 2;
     [SerializeField, Tooltip("道のタイル数")]
     private int _tileCount = 0;
     [SerializeField, Tooltip("曲がり角数")]
@@ -36,8 +40,6 @@ public class NewMapRoute
     private int _yLength = default;
     [Tooltip("マップ配列のx軸の要素数")]
     private int _xLength = default;
-    [Tooltip("スタートの番号")]
-    private const int CONST_START_NUMBER = 2;
 
 
 
@@ -60,12 +62,12 @@ public class NewMapRoute
         _yLength = yLength;
         //マップ配列のx軸の要素数
         _xLength = xLength;
-        Debug.LogError(""+ _yLength + _xLength);
+        Debug.LogError("xy"+ _yLength + _xLength);
 
         //マップ配列スクリプト
         _mapData = mapData;
         //ルート探索開始
-        RouteSearchSecond();
+        StartSearch();
     }
 
 
@@ -80,7 +82,7 @@ public class NewMapRoute
     /// <summary>
     /// 探索開始位置を探す
     /// </summary>
-    public void RouteSearchSecond() {
+    public void StartSearch() {
         int indexX = 0;
         int indexY = 0;
 
@@ -109,54 +111,63 @@ public class NewMapRoute
     /// ルート探索をする
     /// </summary>
     private void SearchRoute() {
-
+   //     Debug.LogWarning("NowPos:" + _searchedPos);
+   //     Debug.LogWarning("BeforePos:" + _beforePosition);
 
         //今いるマスの周り４方向を調べる(上右下左の順で探索)
         foreach (Vector2Int vector2Int in _fourDorection) {
-            Debug.LogError("v:" + vector2Int);
+   //         Debug.LogError("v:" + vector2Int);
 
             //元いた地点を調べてるなら
-            if (new Vector2Int(_searchedPos.y + vector2Int.x, _searchedPos.x + vector2Int.y) == _beforePosition) {
-                Debug.Log("ONAJI");
+            if (new Vector2Int(_searchedPos.x + vector2Int.x, _searchedPos.y + vector2Int.y) == _beforePosition) {
+      //          Debug.Log("ONAJI");
                 continue;
             }
             //もし調べてる地点が配列範囲外なら
             if (_searchedPos.x + vector2Int.x < 0 || _searchedPos.x + vector2Int.x >= _yLength || _searchedPos.y + vector2Int.y < 0 || _searchedPos.y + vector2Int.y >= _xLength) {
-                Debug.Log("OUT");
+      //          Debug.Log("OUT");
                 continue;
             }
-            //Debug.LogError("" + _searchedPos.x + vector2Int.y);
-            //Debug.LogError("" + _searchedPos.y + vector2Int.x);
+            //     Debug.LogError("x" + _searchedPos.x + vector2Int.y);
+            //     Debug.LogError("y" + _searchedPos.y + vector2Int.x);
             //もし道があるなら
-            if (_mapData.MapDataArray[_searchedPos.x + vector2Int.x,_searchedPos.y + vector2Int.y] == _roadInt) {
-                Debug.Log("ROAD");
+            if (_mapData.MapDataArray[_searchedPos.x + vector2Int.x, _searchedPos.y + vector2Int.y] == CONST_ROAD_NUMBER) {
+                //            Debug.Log("ROAD");
                 //タイル数をカウントする
                 _tileCount++;
                 //曲がり角か
                 if (vector2Int != _searchedPos - _beforePosition) {
                     //曲がり角の座標を格納
                     _curveCount++;
-                    //_curvePoints.Add()
+                    //_curvePoints.Add(new Vector2Int(0,0));
                     //    _tilemap.GetCellCenterWorld(new Vector3Int(1, 2, 0));
                     //_varticalMax - pos.y + CONST_MINAS_ONE, pos.x - _horizontalMin
+                    Debug.LogError("Curve:" + _searchedPos);
                 }
 
                 //元居た地点を格納
                 _beforePosition = _searchedPos;
-                //
+                //探索するタイルの座標を変更する
                 _searchedPos.x += vector2Int.x;
                 _searchedPos.y += vector2Int.y;
                 //次のタイルの周りを探索
-                if (_a < 200) {
-                    _a++;
-                    Debug.LogWarning("IN");
-                    SearchRoute();
+                if (_a > 200) {
+                    Debug.LogWarning("失敗");
+                    return;
                 }
+                _a++;
+                SearchRoute();
+                return;
             }
-            //もし曲がり角なら配列に格納
-            Debug.Log("NOT");
+            //もしゴールなら
+            else if (_mapData.MapDataArray[_searchedPos.x + vector2Int.x, _searchedPos.y + vector2Int.y] == CONST_GOAL_NUMBER) {
+                //ゴールの座標を格納
+                //_curvePoints.Add(new Vector2Int(0,0));
+                //    _tilemap.GetCellCenterWorld(new Vector3Int(1, 2, 0));
+                //_varticalMax - pos.y + CONST_MINAS_ONE, pos.x - _horizontalMin
+                return;
+            }
         }
-
 
     }
 

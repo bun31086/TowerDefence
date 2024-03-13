@@ -101,7 +101,6 @@ public class NewMapOut : MonoBehaviour
             foreach (Tile tile in _tileType) {
                 // スプライトが一致しているか判定
                 if (_tileMap.GetTile(pos) == tile) {
-                    Debug.LogWarning("" + (bounds.max.y) +":"+ (pos.x + xDistance));
                     // 特定のスプライトと一致している場合は配列のそのタイルに対応した数字を格納
                     _mapData.MapDataArray[bounds.max.y-1 - pos.y, pos.x + xDistance] = index;
                     break;
@@ -121,7 +120,7 @@ public class NewMapOut : MonoBehaviour
         }
         print("Field------------------------------------------");
 
-        //ルートを探索する
+        //ルートを探索する(配列内)
         _newMapRoute = new NewMapRoute(_mapData.MapDataArray.GetLength(0), _mapData.MapDataArray.GetLength(1),_mapData);
         //配列からglobalに変換
     }
