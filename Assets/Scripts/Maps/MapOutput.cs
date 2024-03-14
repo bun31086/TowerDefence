@@ -29,8 +29,6 @@ public class MapOutput : MonoBehaviour
     private int _varticalMin = default;
     [Tooltip("配列が0から始まるため、引く数字")]
     private const int CONST_MINAS_ONE = -1;
-    [SerializeField,Tooltip("曲がり角の座標")]
-    private Vector3[] _curvePos = default;
     [Tooltip("ルート探索スクリプト")]
     private MapRouteSearch _mapRouteSearch = default;
     [Tooltip("曲がり角の数")]
@@ -39,10 +37,6 @@ public class MapOutput : MonoBehaviour
     #endregion
 
     #region プロパティ  
-    public Vector3[] CurvePos {
-        get => _curvePos;
-        set => _curvePos = value;
-    }
 
     #endregion
 
@@ -59,23 +53,22 @@ public class MapOutput : MonoBehaviour
     /// <summary>
     /// ボタンが押されたらタイルマップを配列に落としこむ
     /// </summary>
-    public void Output() {
+    private void Output() {
         //左下を原点にする
         BoundsInt bounds = _tileMap.cellBounds;
         //タイルマップの一番左と一番下の座標を格納
         _horizontalMin = bounds.min.x;
         _varticalMin = bounds.min.y;
         _varticalMax = bounds.max.y + CONST_MINAS_ONE;
-        Debug.LogError("a:" + _varticalMin + "" + _horizontalMin);
-        Debug.LogError("b:" + bounds.max.x + "" + bounds.max.y);
         //0からどのくらい離れているか
         int xDistance = -_horizontalMin;
         int yDistance = -_varticalMin;
         //タイルマップのサイズを調べる
         _horizontal = xDistance + bounds.max.x;
         _vartical = yDistance + bounds.max.y;
-        //タイルマップの情報のサイズに配列を変更
-        MapData.Instance.ArraySizeChange(_vartical, _horizontal);
+        //タイルマップの情報のサイズの配列を生成
+        MapData.Instance.MapDataArray = new int[_vartical, _horizontal];
+
 
         //タイルマップのすべてのタイルの枚数繰り返す
         foreach (Vector3Int pos in _tileMap.cellBounds.allPositionsWithin) {
@@ -107,17 +100,16 @@ public class MapOutput : MonoBehaviour
             print(outPutString);
         }
         print("Field------------------------------------------");
-        print("A" + MapData.Instance.MapDataArray.GetLength(0) + "B" + MapData.Instance.MapDataArray.GetLength(1));
 
         //ルートを探索する(配列内)
         _mapRouteSearch = new MapRouteSearch(MapData.Instance.MapDataArray.GetLength(0), MapData.Instance.MapDataArray.GetLength(1), MapData.Instance);
         //曲がり角の数を取得する
         _curveCount = _mapRouteSearch.CurvePosition.Count;
         //曲がり角の数と同じ要素数の配列を生成
-        CurvePos = new Vector3[_curveCount];
+        CurvePosition.Instance.CurvePos = new Vector3[_curveCount];
         //生成した配列にタイルマップの座標をワールド座標で格納
         for (int index = 0; index < _curveCount; index++) {
-            CurvePos[index] = _tileMap.GetCellCenterWorld(new Vector3Int(_mapRouteSearch.CurvePosition[index][1] + _horizontalMin, -_mapRouteSearch.CurvePosition[index][0] + _varticalMax));
+            CurvePosition.Instance.CurvePos[index] = _tileMap.GetCellCenterWorld(new Vector3Int(_mapRouteSearch.CurvePosition[index][1] + _horizontalMin, -_mapRouteSearch.CurvePosition[index][0] + _varticalMax));
         }
     }
     #endregion

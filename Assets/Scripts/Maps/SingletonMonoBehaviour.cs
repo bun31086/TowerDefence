@@ -9,7 +9,7 @@ using UnityEngine;
 
 public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour {
 
-    #region 変数とプロパティ 
+    #region 変数,プロパティ 
 
     private static T _instance;
     public static T Instance {
@@ -18,14 +18,9 @@ public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBe
                 Type type = typeof(T);
 
                 _instance = (T)FindObjectOfType(type);
-                //if (_instance == null) {
-                //    Debug.LogError(t + " をアタッチしているGameObjectはありません");
-                //}
             }
-
             return _instance;
         }
     }
-
     #endregion
 }

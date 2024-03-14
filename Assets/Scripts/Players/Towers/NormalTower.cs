@@ -1,11 +1,12 @@
 // ---------------------------------------------------------  
-// NormalEnemy.cs  
-// 通常の敵
-// 作成日:  3/13
+// NormalTower.cs  
+// 通常のタワー
+// 作成日:  3/14
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 
-public class NormalEnemy : EnemyBase {
+public class NormalTower : TowerBase
+{
   
     #region 変数  
   
@@ -23,26 +24,20 @@ public class NormalEnemy : EnemyBase {
      void Awake()
      {
      }
-  
-     /// <summary>  
-     /// 更新前処理  
-     /// </summary>  
-     void Start ()
-     {
-        //敵のHPを設定
-        _hp = 100;
-        //敵の移動スピードを設定
-        _speed = 2;
-        //敵の攻撃力を設定
-        _power = 1;
-     }
 
     /// <summary>  
-    /// 更新処理  
+    /// 更新前処理  
     /// </summary>  
-    //void Update() {
-    //    //移動
-
+    void Start() {
+        _transform = this.transform;
+        //３秒おきに弾を撃つ
+        _shootTime = 1;
+    }
+    ///// <summary>  
+    ///// 更新処理  
+    ///// </summary>  
+    //void Update ()
+    //{
     //}
 
     #endregion

@@ -1,11 +1,12 @@
 // ---------------------------------------------------------  
-// NormalEnemy.cs  
-// 通常の敵
-// 作成日:  3/13
+// SpeedEnemy.cs  
+// 足が早い敵
+// 作成日:  3/14
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 
-public class NormalEnemy : EnemyBase {
+public class SpeedEnemy : EnemyBase
+{
   
     #region 変数  
   
@@ -30,19 +31,18 @@ public class NormalEnemy : EnemyBase {
      void Start ()
      {
         //敵のHPを設定
-        _hp = 100;
+        _hp = 80;
         //敵の移動スピードを設定
-        _speed = 2;
+        _speed = 6;
         //敵の攻撃力を設定
         _power = 1;
-     }
+    }
 
     /// <summary>  
     /// 更新処理  
     /// </summary>  
-    //void Update() {
-    //    //移動
-
+    //void Update ()
+    //{
     //}
 
     #endregion

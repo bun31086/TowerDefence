@@ -43,7 +43,6 @@ public class MapRouteSearch
     private int[] _searchPos = new int[2];
     //エラー対策用変数
     private int _error = 0;
-
     //進む方向
     private int[,] _fourDirection =
     {
@@ -52,15 +51,6 @@ public class MapRouteSearch
             { 1, 0},        //下
             { 0, -1}        //左
     };
-
-    public List<int[]> CurvePosition {
-        get => _curvePosition;
-        set => _curvePosition = value;
-    }
-
-
-
-
 
 
     /// <summary>
@@ -74,16 +64,16 @@ public class MapRouteSearch
         //マップ配列スクリプト
         _mapData = mapData;
         //ルート探索開始
-        StartSearch1();
+        StartSearch();
     }
-
-
-
-
 
     #endregion
 
     #region プロパティ  
+    public List<int[]> CurvePosition {
+        get => _curvePosition;
+        set => _curvePosition = value;
+    }
 
     #endregion
 
@@ -92,10 +82,9 @@ public class MapRouteSearch
     /// <summary>
     /// 探索開始位置を探す
     /// </summary>
-    public void StartSearch1() {
+    public void StartSearch() {
         int indexX = 0;
         int indexY = 0;
-
         //探索開始位置を探す
         foreach (int startPos in _mapData.MapDataArray) {
             //探索開始位置だったら
@@ -106,21 +95,20 @@ public class MapRouteSearch
                 break;
             }
             indexX++;
-            //もしxが
             if (indexX >= _xLength) {
                 indexY++;
                 indexX = 0;
             }
         }
-        //ルート探索開始
-        SearchRoute1(0);
+        //ルート探索開始(引数はタイルの枚数カウント)
+        SearchRoute(0);
     }
 
 
     /// <summary>
     /// ルート探索をする
     /// </summary>
-    private void SearchRoute1(int tileCount) {
+    private void SearchRoute(int tileCount) {
         _tileCount = tileCount;
         //今いるマスの周り４方向を調べる(上右下左の順で探索)
         for (int y = 0; y < 4; y++) {
@@ -163,7 +151,7 @@ public class MapRouteSearch
                 }
                 _error++;
                 //次のタイルの周りを探索
-                SearchRoute1(_tileCount);
+                SearchRoute(_tileCount);
                 return;
             }
             //もしゴールなら

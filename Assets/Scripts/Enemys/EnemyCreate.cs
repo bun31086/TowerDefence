@@ -1,11 +1,14 @@
 // ---------------------------------------------------------  
-// NormalEnemy.cs  
-// 通常の敵
-// 作成日:  3/13
+// EnemyCreate.cs  
+// 敵を生成する
+// 作成日:  3/14
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
+using UnityEngine;
+using System.Collections;
 
-public class NormalEnemy : EnemyBase {
+public class EnemyCreate : MonoBehaviour
+{
   
     #region 変数  
   
@@ -29,21 +32,15 @@ public class NormalEnemy : EnemyBase {
      /// </summary>  
      void Start ()
      {
-        //敵のHPを設定
-        _hp = 100;
-        //敵の移動スピードを設定
-        _speed = 2;
-        //敵の攻撃力を設定
-        _power = 1;
+  
      }
-
-    /// <summary>  
-    /// 更新処理  
-    /// </summary>  
-    //void Update() {
-    //    //移動
-
-    //}
-
+  
+     /// <summary>  
+     /// 更新処理  
+     /// </summary>  
+     void Update ()
+     {
+     }
+  
     #endregion
 }
