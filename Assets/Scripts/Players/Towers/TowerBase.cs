@@ -8,7 +8,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public abstract class TowerBase : MonoBehaviour
+public class TowerBase : MonoBehaviour
 {
 
     #region 変数  

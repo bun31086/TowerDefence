@@ -7,7 +7,7 @@
 using UnityEngine;
 using System.Collections;
 
-public abstract class EnemyBase : MonoBehaviour,IDamageable
+public class EnemyBase : MonoBehaviour,IDamageable
 {
 
     #region 変数  

@@ -7,7 +7,7 @@
 using UnityEngine;
 using System.Collections;
 
-public abstract class BulletBase : MonoBehaviour
+public class BulletBase : MonoBehaviour
 {
 
     #region 変数  
