@@ -10,6 +10,7 @@ using UnityEngine;
 using System;
 using UnityEngine.Tilemaps;
 
+
 public class TowerSet : MonoBehaviour
 {
 
@@ -55,16 +56,19 @@ public class TowerSet : MonoBehaviour
      void Start ()
      {
         _tileMap = _tile.gameObject;
-     }
+        //開始時にTileMapとのサイズを合わせる
+        _vec = new Vector2(_tileMap.transform.localScale.x * _tileMap.transform.root.localScale.x, _tileMap.transform.localScale.y * _tileMap.transform.root.localScale.y);
+        this.transform.localScale = _vec;
+    }
   
      /// <summary>  
      /// 更新処理  
      /// </summary>  
      void Update ()
      {
-        //サイズ合わせ
-        _vec = new Vector2(_tileMap.transform.localScale.x * _tileMap.transform.root.localScale.x, _tileMap.transform.localScale.y * _tileMap.transform.root.localScale.y);
-        this.transform.localScale = _vec;
+        //もしメニューが開かれていたら
+        //if()
+        //処理を中断
 
         //もしマウスの右クリックが押されたら
         if (Input.GetMouseButtonDown(0)) {
@@ -74,10 +78,6 @@ public class TowerSet : MonoBehaviour
             touchScreenPosition = Camera.main.ScreenToWorldPoint(touchScreenPosition);
             //タイルマップ座標に変換
             Vector3Int ve3i = _tile.WorldToCell(touchScreenPosition);
-            Debug.LogError("TILE:" + ve3i);
-            Debug.LogError("WORLD:" + _tile.GetCellCenterWorld(new Vector3Int(ve3i.x, ve3i.y, 0)));
-            //四捨五入する
-            //_touchWorldPosition = new Vector2((float)Math.Round(_touchWorldPosition.x, 0, MidpointRounding.AwayFromZero), (float)Math.Round(_touchWorldPosition.y, 0, MidpointRounding.AwayFromZero));        
             //座標に選択オブジェクトを移動
             this.transform.position = _tile.GetCellCenterWorld(new Vector3Int(ve3i.x, ve3i.y, 0));
             

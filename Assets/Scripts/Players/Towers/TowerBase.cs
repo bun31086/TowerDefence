@@ -46,6 +46,13 @@ public abstract class TowerBase : MonoBehaviour
         TowerMove();
         //時間を数える
         _nowTime += Time.deltaTime;
+        //ターゲットがいなかったら
+        if (_nearestEnemy == null) {
+            //時間を初期化
+            _nowTime = 0.0f;
+            //処理を中断
+            return;
+        }
         //弾を撃てる時間になったら
         if (_nowTime >= _shootTime) {
             //時間を初期化
@@ -62,7 +69,9 @@ public abstract class TowerBase : MonoBehaviour
         //全ての敵を配列に格納
         GameObject[] enemys = GameObject.FindGameObjectsWithTag("Enemy");
         //敵がいなかったら
-        if (enemys == null) {
+        if (enemys.Length == 0) {
+            //ターゲットを空にする
+            _nearestEnemy = null;
             //処理を中断
             return;
         }
@@ -119,7 +128,7 @@ public abstract class TowerBase : MonoBehaviour
             //そのプールに変更
             _bulletTransorm = GameObject.Find(objectName).transform;
         }
-        //アクティブでないオブジェクトをbulletsの中から探索
+        //非アクティブオブジェクトをbulletsの中から探索
         foreach (Transform bulletTransform in _bulletTransorm) {
             if (!bulletTransform.gameObject.activeSelf) {
                 //非アクティブなオブジェクトの位置と回転を設定
@@ -131,7 +140,7 @@ public abstract class TowerBase : MonoBehaviour
                 return;
             }
         }
-        //非アクティブなオブジェクトがない場合新規生成
+        //非アクティブオブジェクトがない場合新規生成
         //生成時に_bulletTransormの子オブジェクトにする
         _createdBullet = Instantiate(_bullet, pos, rotation, _bulletTransorm);
         //ターゲットを伝える
