@@ -8,19 +8,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Tilemaps;
 
 public class TowerSet : MonoBehaviour
 {
 
     #region 変数
 
-    [Tooltip("マウスが押されたポイント")]
-    Vector2 _touchWorldPosition = default;
-    [SerializeField, Tooltip("サイズを合わせる")]
+    //[Tooltip("マウスが押されたポイント")]
+    //Vector2 _touchWorldPosition = default;
+    [Tooltip("サイズを合わせる")]
     private GameObject _tileMap = default;
 
     private Vector2 _vec = default;
 
+    [SerializeField,Tooltip("TileMapコンポーネント")]
+    private Tilemap _tile = default;
 
     #endregion
 
@@ -51,7 +54,7 @@ public class TowerSet : MonoBehaviour
      /// </summary>  
      void Start ()
      {
-  
+        _tileMap = _tile.gameObject;
      }
   
      /// <summary>  
@@ -65,13 +68,19 @@ public class TowerSet : MonoBehaviour
 
         //もしマウスの右クリックが押されたら
         if (Input.GetMouseButtonDown(0)) {
-            //タイルの座標を調べる
+            //座標を調べる
             Vector2 touchScreenPosition = Input.mousePosition;
-            _touchWorldPosition = Camera.main.ScreenToWorldPoint(touchScreenPosition);
+            //スクリーン座標からワールド座標に変換
+            touchScreenPosition = Camera.main.ScreenToWorldPoint(touchScreenPosition);
+            //タイルマップ座標に変換
+            Vector3Int ve3i = _tile.WorldToCell(touchScreenPosition);
+            Debug.LogError("TILE:" + ve3i);
+            Debug.LogError("WORLD:" + _tile.GetCellCenterWorld(new Vector3Int(ve3i.x, ve3i.y, 0)));
             //四捨五入する
-            _touchWorldPosition = new Vector2((float)Math.Round(_touchWorldPosition.x, 0, MidpointRounding.AwayFromZero), (float)Math.Round(_touchWorldPosition.y, 0, MidpointRounding.AwayFromZero));        
+            //_touchWorldPosition = new Vector2((float)Math.Round(_touchWorldPosition.x, 0, MidpointRounding.AwayFromZero), (float)Math.Round(_touchWorldPosition.y, 0, MidpointRounding.AwayFromZero));        
             //座標に選択オブジェクトを移動
-            this.transform.position = _touchWorldPosition;
+            this.transform.position = _tile.GetCellCenterWorld(new Vector3Int(ve3i.x, ve3i.y, 0));
+            
 
             //メニューを表示
         }
