@@ -1,13 +1,13 @@
 // ---------------------------------------------------------  
-// TowerView.cs  
-// UI上の入出力
+// CursorView.cs  
+// カーソルの変更
 // 作成日:  3/15
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
 using UniRx;
 
-public class TowerView : MonoBehaviour {
+public class CursorView : MonoBehaviour {
 
     #region 変数  
 
@@ -21,7 +21,6 @@ public class TowerView : MonoBehaviour {
     #endregion
 
     #region プロパティ
-
     public IReadOnlyReactiveProperty<Vector2> TouchScreenPosition => _touchScreenPosition;
     public IReadOnlyReactiveProperty<Vector2> CursorSize => _cursorSize;
 
@@ -35,7 +34,6 @@ public class TowerView : MonoBehaviour {
     /// </summary>
     private void Start() {
         _transform = this.transform;
-
         //カーソルの大きさを変更
         _cursorSize.Value = this.transform.localScale;
     }
@@ -58,18 +56,21 @@ public class TowerView : MonoBehaviour {
     /// </summary>
     /// <param name="cursorPos">座標</param>
     public void PositionChange(Vector2 cursorPos) {
-        //カーソルのポジションを変更
-        _transform.position = cursorPos;
+        if (_transform != null) {
+            //カーソルのポジションを変更
+            _transform.position = cursorPos;
+        }
     }
 
     /// <summary>
     /// オブジェクトのサイズ変更
     /// </summary>
-    /// <param name="cursorSize">大きさ</param>
+    /// <param name="cursorSize">サイズ</param>
     public void ScaleChage(Vector2 cursorSize) {
-
-        _transform.localScale = cursorSize;
-    
+        if (_transform != null) {
+            //サイズ変更
+            _transform.localScale = cursorSize;
+        }
     }
 
     #endregion

@@ -1,38 +1,42 @@
 // ---------------------------------------------------------  
-// PlayerPresenter.cs  
-// ModelとViewの仲介
+// CursorPresenter.cs  
+// カーソルのModelとViewを仲介
 // 作成日:  3/15
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
-using System;
 using UniRx;
 
-public class PlayerPresenter : MonoBehaviour {
+public class CursorPresenter : MonoBehaviour {
 
     #region 変数  
 
-    [SerializeField, Tooltip("View")]
-    private TowerView _playerView = default;
-
-    [SerializeField, Tooltip("Model")]
-    private TowerSet _playerModel = default;
-
-    #endregion
-
-    #region プロパティ  
+    [SerializeField, Tooltip("カーソルビュー")]
+    private CursorView _playerView = default;
+    [SerializeField, Tooltip("カーソルモデル")]
+    private CursorModel _playerModel = default;
+    [SerializeField]
+    private ShopMenu _shopMenu = default;
 
     #endregion
 
-    #region メソッド  
+    #region メソッド 
+
+
+    //if()
+    //処理を中断
+
+
 
     /// <summary>  
     /// 更新前処理  
     /// </summary>  
     void Start() {
+        #region View側
         //カーソル位置計算
         _playerView.TouchScreenPosition
+            //メニューが開かれていないとき
+            .Where(_ => _shopMenu.IsShop == false)
             .Subscribe(touchPoint => {
                 //座標計算
                 _playerModel.SearchPos(touchPoint);
@@ -45,23 +49,25 @@ public class PlayerPresenter : MonoBehaviour {
                 _playerModel.ScaleChange();
             })
             .AddTo(this);
+        #endregion
+        #region Model側
         //カーソル位置移動
         _playerModel.CursorPosition
-            .Subscribe(_ => { 
-
+            .Subscribe(cursorPos => {
+                //位置変更
+                _playerView.PositionChange(cursorPos);
             })
             .AddTo(this);
         //カーソルサイズ変更
         _playerModel.CursorSize
-            .Subscribe(_ => {
-
+            .Subscribe(cursorSize => {
+                //サイズ変更
+                _playerView.ScaleChage(cursorSize);
             })
             .AddTo(this);
-            
-
-        //カーソルサイズ変更
-
+        #endregion
     }
+
 
     #endregion
 }

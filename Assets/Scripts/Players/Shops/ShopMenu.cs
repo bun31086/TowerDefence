@@ -14,23 +14,31 @@ public class ShopMenu : MonoBehaviour
 
     [SerializeField, Tooltip("ショップメニュー")]
     private GameObject _shopMenu = default;
+    [SerializeField,Tooltip("メニューのX座標")]
+    private float _shopX = default;
     [Tooltip("ずらすX座標")]
     private const float CONST_SHOP_X = 350;
     [Tooltip("ショップが開かれているか")]
     private bool _isShop = false;
 
+
+    public bool IsShop {
+        get => _isShop;
+        set => _isShop = value;
+    }
+
     #endregion
-  
+
     #region プロパティ  
-  
+
     #endregion
-  
+
     #region メソッド  
-  
-     /// <summary>  
-     /// 初期化処理  
-     /// </summary>  
-     void Awake()
+
+    /// <summary>  
+    /// 初期化処理  
+    /// </summary>  
+    void Awake()
      {
      }
   
@@ -52,28 +60,35 @@ public class ShopMenu : MonoBehaviour
 
 
     /// <summary>
-    /// メニューボタンが押されたとき
+    /// ショップを開く
     /// </summary>
-    public void ButtonPush() {
-        //ショップの座標を定義
-        float shopX = default;
+    public void ShopOpen() {
         //ショップが開かれていないなら
-        if (!_isShop) {
+        if (!IsShop) {
             //x座標だけを変更する
-            shopX = _shopMenu.transform.position.x - CONST_SHOP_X;
+            _shopX = _shopMenu.transform.position.x - CONST_SHOP_X;
             //ショップフラグをON
-            _isShop = true;
+            IsShop = true;
+            //メニューを移動させる
+            _shopMenu.transform.position = new Vector2(_shopX, _shopMenu.transform.position.y);
         }
-        //ショップが開かれているなら
-        else if (_isShop) {
-            //x座標だけを変更する
-            shopX = _shopMenu.transform.position.x + CONST_SHOP_X;
-            //ショップフラグをON
-            _isShop = false;
-        }
-        //メニューを移動させる
-        _shopMenu.transform.position = new Vector2(shopX, _shopMenu.transform.position.y);
     }
+
+    /// <summary>
+    /// ショップを閉じる
+    /// </summary>
+    public void ShopClose() {
+        //ショップが開かれているなら
+        if (IsShop) {
+            //x座標だけを変更する
+            _shopX = _shopMenu.transform.position.x + CONST_SHOP_X;
+            //ショップフラグをOFF
+            IsShop = false;
+            //メニューを移動させる
+            _shopMenu.transform.position = new Vector2(_shopX, _shopMenu.transform.position.y);
+        }
+    }
+
 
     /// <summary>
     /// タワーボタンが押されたとき

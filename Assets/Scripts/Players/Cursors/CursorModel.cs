@@ -1,18 +1,15 @@
 // ---------------------------------------------------------  
-// TowerSet.cs  
-// タワー設置スクリプト
+// CursorModel.cs  
+// カーソル計算スクリプト
 // 作成日:  3/14
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
 using UnityEngine.Tilemaps;
 using UniRx;
 
 
-public class TowerSet : MonoBehaviour {
+public class CursorModel : MonoBehaviour {
 
     #region 変数
 
@@ -38,21 +35,6 @@ public class TowerSet : MonoBehaviour {
     #region メソッド  
 
     /// <summary>  
-    /// 初期化処理  
-    /// </summary>  
-    void Awake() {
-        /*
-         * タイルを押すとタワー選択画面を表示
-         * タワーを選択し、決定を押すと、設置できる
-         * 
-         * 
-         * 
-         * 
-         */
-
-    }
-
-    /// <summary>  
     /// 更新前処理  
     /// </summary>  
     void Start() {
@@ -60,21 +42,10 @@ public class TowerSet : MonoBehaviour {
         _tileTransform = _tile.transform;
     }
 
-    /// <summary>  
-    /// 更新処理  
-    /// </summary>  
-    void Update() {
-        //もしメニューが開かれていたら
-        //if()
-        //処理を中断
-
-    }
-
     /// <summary>
     /// カーソルのサイズ計算
     /// </summary>
     /// <param name="size">カーソルの元の大きさ</param>
-
     public void ScaleChange() {
         //カーソルのサイズ計算
         _cursorSize.Value = new Vector2(_tileTransform.localScale.x * _tileTransform.root.localScale.x, _tileTransform.localScale.y * _tileTransform.root.localScale.y);
