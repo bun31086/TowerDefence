@@ -47,6 +47,11 @@ public class CursorModel : MonoBehaviour {
     public IReadOnlyReactiveProperty<Vector3> CursorPosition => _cursorPosition;
     public IReadOnlyReactiveProperty<Vector2> CursorSize => _cursorSize;
 
+    public int TileNumber {
+        get => _tileNumber;
+        set => _tileNumber = value;
+    }
+
     #endregion
 
     #region メソッド  
@@ -87,8 +92,8 @@ public class CursorModel : MonoBehaviour {
         //0からどのくらい離れているか
         int xOffset = -_horizontalMin;
         //カーソルと重なるタイルの配列座標を調べる
-        _tileNumber = MapData.Instance.MapDataArray[bounds.max.y - 1 - tilemapPosition.y, tilemapPosition.x + xOffset];
-        print("Tile:" + _tileNumber);
+        TileNumber = MapData.Instance.MapDataArray[bounds.max.y - 1 - tilemapPosition.y, tilemapPosition.x + xOffset];
+        print("Tile:" + TileNumber);
     }
 
     #endregion

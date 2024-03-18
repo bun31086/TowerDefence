@@ -31,6 +31,8 @@ public class ShopMenu : MonoBehaviour
     private GameObject _selectedTower = default;
     [Tooltip("タワーを設置する座標")]
     private Vector3 _towerPos = default;
+    [SerializeField,Tooltip("カーソルに合わさっているタイルを取得")]
+    private CursorModel _cursorModel = default;
 
     #endregion
 
@@ -79,7 +81,7 @@ public class ShopMenu : MonoBehaviour
         //ショップが開かれていないなら
         if (!IsShop) {
             //現在のタイルの種類を取得
-
+            int tileNumber = _cursorModel.TileNumber;
             //タイルの種類に合わせた説明画面を表示
 
             //x座標だけを変更する
