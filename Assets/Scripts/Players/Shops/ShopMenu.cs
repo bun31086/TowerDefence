@@ -20,16 +20,17 @@ public class ShopMenu : MonoBehaviour
     private const float CONST_SHOP_X = 350;
     [Tooltip("ショップが開かれているか")]
     private bool _isShop = false;
+    [SerializeField, Tooltip("ショップのボタンを押されて一回目のみショップを閉じないようにする")]
+    private bool _isShopFirst = default;
 
-
-    public bool IsShop {
-        get => _isShop;
-        set => _isShop = value;
-    }
 
     #endregion
 
     #region プロパティ  
+    public bool IsShop {
+        get => _isShop;
+        set => _isShop = value;
+    }
 
     #endregion
 
@@ -79,13 +80,18 @@ public class ShopMenu : MonoBehaviour
     /// </summary>
     public void ShopClose() {
         //ショップが開かれているなら
-        if (IsShop) {
+        if (IsShop && _isShopFirst) {
             //x座標だけを変更する
             _shopX = _shopMenu.transform.position.x + CONST_SHOP_X;
             //ショップフラグをOFF
             IsShop = false;
             //メニューを移動させる
             _shopMenu.transform.position = new Vector2(_shopX, _shopMenu.transform.position.y);
+            //一回目のみショップを閉じないようにする
+            _isShopFirst = false;
+        } else if (!_isShopFirst) {
+            //一回目のみショップを閉じないようにする
+            _isShopFirst = true;
         }
     }
 
