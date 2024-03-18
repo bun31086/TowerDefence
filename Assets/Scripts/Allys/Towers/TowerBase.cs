@@ -13,7 +13,7 @@ public class TowerBase : MonoBehaviour
 
     #region 変数  
 
-    [SerializeField,Tooltip("撃つ弾の種類")] 
+    [SerializeField,Tooltip("撃つ弾の種類"), Header("撃つ弾の種類")] 
     private GameObject _bullet = default;
     [Tooltip("撃つ弾のTransform")]
     private Transform _bulletTransorm = default;
@@ -27,7 +27,7 @@ public class TowerBase : MonoBehaviour
     private const int CONST_ROTATE_SPEED = 3;
     [Tooltip("新しく生成された弾オブジェクト")]
     private GameObject _createdBullet = default;
-    [SerializeField,Tooltip("前の弾を撃ってから経過した時間")]
+    [Tooltip("前の弾を撃ってから経過した時間")]
     private float _nowTime = default;
     [Tooltip("弾を撃つ時間間隔")]
     protected float _shootTime = default;

@@ -38,6 +38,7 @@ public class BulletBase : MonoBehaviour
 
         Move();
     }
+
     /// <summary>
     /// 生成時にターゲットを渡される
     /// </summary>
@@ -83,6 +84,9 @@ public class BulletBase : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// カメラの外に行ったら非アクティブ
+    /// </summary>
     private void OnBecameInvisible() {
         //画面外に行ったら非アクティブにする
         gameObject.SetActive(false);

@@ -11,22 +11,16 @@ public class CursorPresenter : MonoBehaviour {
 
     #region 変数  
 
-    [SerializeField, Tooltip("カーソルビュー")]
-    private CursorView _playerView = default;
-    [SerializeField, Tooltip("カーソルモデル")]
-    private CursorModel _playerModel = default;
-    [SerializeField]
+    [SerializeField, Tooltip("カーソルビュー"),Header("カーソルオブジェクト(カーソルのView)")]
+    private CursorView _cursorView = default;
+    [SerializeField, Tooltip("カーソルモデル"), Header("TileMapGrid(カーソルのModel)")]
+    private CursorModel _cursorModel = default;
+    [SerializeField,Tooltip("ショップメニューオブジェクト"), Header("ショップメニュー画面")]
     private ShopMenu _shopMenu = default;
 
     #endregion
 
     #region メソッド 
-
-
-    //if()
-    //処理を中断
-
-
 
     /// <summary>  
     /// 更新前処理  
@@ -34,35 +28,41 @@ public class CursorPresenter : MonoBehaviour {
     void Start() {
         #region View側
         //カーソル位置計算
-        _playerView.TouchScreenPosition
+        _cursorView.TouchScreenPosition
             //メニューが開かれていないとき
             .Where(_ => _shopMenu.IsShop == false)
             .Subscribe(touchPoint => {
                 //座標計算
-                _playerModel.SearchPos(touchPoint);
+                _cursorModel.SearchPos(touchPoint);
             })
             .AddTo(this);
         //カーソルサイズ計算
-        _playerView.CursorSize
+        _cursorView.CursorSize
             .Subscribe(_ => {
                 //大きさ計算
-                _playerModel.ScaleChange();
+                _cursorModel.ScaleChange();
             })
             .AddTo(this);
         #endregion
         #region Model側
         //カーソル位置移動
-        _playerModel.CursorPosition
+        _cursorModel.CursorPosition
+            //初回のみスキップ
+            .Skip(1)
             .Subscribe(cursorPos => {
                 //位置変更
-                _playerView.PositionChange(cursorPos);
+                _cursorView.PositionChange(cursorPos);
+                //ショップを開く
+                _shopMenu.ShopOpen();
+                //閉じるときに押すのが一回のみ
+                _shopMenu.IsShopFirst = true;
             })
             .AddTo(this);
         //カーソルサイズ変更
-        _playerModel.CursorSize
+        _cursorModel.CursorSize
             .Subscribe(cursorSize => {
                 //サイズ変更
-                _playerView.ScaleChage(cursorSize);
+                _cursorView.ScaleChage(cursorSize);
             })
             .AddTo(this);
         #endregion

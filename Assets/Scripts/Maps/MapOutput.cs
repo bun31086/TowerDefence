@@ -13,9 +13,9 @@ public class MapOutput : MonoBehaviour
 {
 
     #region 変数  
-    [SerializeField, Tooltip("マップ配列に格納したいタイルマップ")]
+    [SerializeField, Tooltip("マップ配列に格納したいタイルマップ"), Header("タイルマップ")]
     private Tilemap _tileMap = default;
-    [SerializeField, Tooltip("使用するタイルを格納")]
+    [SerializeField, Tooltip("使用するタイルを格納"), Header("使用するタイル")]
     private List<Tile> _tileType = new List<Tile>();
     [Tooltip("タイルマップの横サイズ")]
     private int _horizontal = default;
@@ -51,7 +51,7 @@ public class MapOutput : MonoBehaviour
      }
 
     /// <summary>
-    /// ボタンが押されたらタイルマップを配列に落としこむ
+    /// タイルマップを配列に落としこむ
     /// </summary>
     private void Output() {
         //左下を原点にする
@@ -61,11 +61,11 @@ public class MapOutput : MonoBehaviour
         _varticalMin = bounds.min.y;
         _varticalMax = bounds.max.y + CONST_MINAS_ONE;
         //0からどのくらい離れているか
-        int xDistance = -_horizontalMin;
-        int yDistance = -_varticalMin;
+        int xOffset = -_horizontalMin;
+        int yOffset = -_varticalMin;
         //タイルマップのサイズを調べる
-        _horizontal = xDistance + bounds.max.x;
-        _vartical = yDistance + bounds.max.y;
+        _horizontal = xOffset + bounds.max.x;
+        _vartical = yOffset + bounds.max.y;
         //タイルマップの情報のサイズの配列を生成
         MapData.Instance.MapDataArray = new int[_vartical, _horizontal];
 
@@ -83,7 +83,7 @@ public class MapOutput : MonoBehaviour
                 // スプライトが一致しているか判定
                 if (_tileMap.GetTile(pos) == tile) {
                     // 特定のスプライトと一致している場合は配列のそのタイルに対応した数字を格納
-                    MapData.Instance.MapDataArray[bounds.max.y - 1 - pos.y, pos.x + xDistance] = index;
+                    MapData.Instance.MapDataArray[bounds.max.y - 1 - pos.y, pos.x + xOffset] = index;
                     break;
                 }
                 index++;

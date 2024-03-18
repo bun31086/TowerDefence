@@ -18,12 +18,12 @@ public class EnemyBase : MonoBehaviour,IDamageable
     private bool _isFirst = true;
     [Tooltip("敵の移動スピード")]
     protected float _speed = default;
-    [SerializeField,Tooltip("敵のHP")]
+    [Tooltip("敵のHP")]
     protected float _hp = default;
     [Tooltip("敵の攻撃力")]
     protected int _power = default;
-    [SerializeField,Tooltip("プレイヤーのHPオブジェクト")]
-    private GameObject _player = default;
+    [SerializeField,Tooltip("プレイヤーのHPオブジェクト"), Header("プレイヤーのステータスオブジェクト")]
+    private GameObject _playerStatus = default;
 
     #endregion
   
@@ -45,7 +45,6 @@ public class EnemyBase : MonoBehaviour,IDamageable
      /// </summary>  
      void Start ()
      {
-  
      }
   
      /// <summary>  
@@ -89,9 +88,9 @@ public class EnemyBase : MonoBehaviour,IDamageable
         //このゲームオブジェクトを非アクティブにする
         this.gameObject.SetActive(false);
         //もしIDamageableを持っていたら
-        if (_player.TryGetComponent(out IDamageable damageable)) {
+        if (_playerStatus.TryGetComponent(out IDamageable damageable)) {
             //PlayerHPのインターフェースを参照し、ダメージを与える
-            _player.GetComponent<IDamageable>().DamageHit(_power);
+            _playerStatus.GetComponent<IDamageable>().DamageHit(_power);
         }
     }
 
