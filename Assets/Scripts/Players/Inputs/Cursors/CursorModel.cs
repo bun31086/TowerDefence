@@ -23,23 +23,16 @@ public class CursorModel : MonoBehaviour {
     private Tilemap _tile = default;
     [Tooltip("タイルTransform")]
     private Transform _tileTransform = default;
-    [SerializeField,Tooltip("カーソルと重なっているタイル")]
-    private int _tileNumber = default;
-
-
-    [Tooltip("タイルマップの横サイズ")]
-    private int _horizontal = default;
-    [Tooltip("タイルマップの縦サイズ")]
-    private int _vartical = default;
     [Tooltip("タイルマップのX座標で一番小さい値")]
     private int _horizontalMin = default;
     [Tooltip("タイルマップのX座標で一番大きい値")]
     private int _varticalMax = default;
-    [Tooltip("タイルマップのY座標で一番小さい値")]
-    private int _varticalMin = default;
     [Tooltip("配列が0から始まるため、引く数字")]
     private const int CONST_MINAS_ONE = -1;
-
+    [Tooltip("カーソルと重なるタイルの配列座標()")]
+    private int _tileCoordinateRow = default;
+    [Tooltip("カーソルと重なるタイルの配列座標()")]
+    private int _tileCoordinateCol = default;
 
     #endregion
 
@@ -47,9 +40,13 @@ public class CursorModel : MonoBehaviour {
     public IReadOnlyReactiveProperty<Vector3> CursorPosition => _cursorPosition;
     public IReadOnlyReactiveProperty<Vector2> CursorSize => _cursorSize;
 
-    public int TileNumber {
-        get => _tileNumber;
-        set => _tileNumber = value;
+    public int TileCoordinateRow {
+        get => _tileCoordinateRow;
+        set => _tileCoordinateRow = value;
+    }
+    public int TileCoordinateCol {
+        get => _tileCoordinateCol;
+        set => _tileCoordinateCol = value;
     }
 
     #endregion
@@ -82,8 +79,6 @@ public class CursorModel : MonoBehaviour {
         touchScreenPosition = _camera.ScreenToWorldPoint(touchScreenPosition);
         //タイルマップ座標に変換
         Vector3Int tilemapPosition = _tile.WorldToCell(touchScreenPosition);
-        //オブジェクトの座標をタイルマップ座標に変更
-        _cursorPosition.Value = _tile.GetCellCenterWorld(new Vector3Int(tilemapPosition.x, tilemapPosition.y, 0));
         //左下を原点にする
         BoundsInt bounds = _tile.cellBounds;
         //タイルマップの一番左と一番下の座標を格納
@@ -92,8 +87,10 @@ public class CursorModel : MonoBehaviour {
         //0からどのくらい離れているか
         int xOffset = -_horizontalMin;
         //カーソルと重なるタイルの配列座標を調べる
-        TileNumber = MapData.Instance.MapDataArray[bounds.max.y - 1 - tilemapPosition.y, tilemapPosition.x + xOffset];
-        print("Tile:" + TileNumber);
+        TileCoordinateCol = _varticalMax - tilemapPosition.y;
+        TileCoordinateRow = tilemapPosition.x + xOffset;
+        //オブジェクトの座標をタイルマップ座標に変更
+        _cursorPosition.Value = _tile.GetCellCenterWorld(new Vector3Int(tilemapPosition.x, tilemapPosition.y, 0));
     }
 
     #endregion

@@ -47,11 +47,13 @@ public class CursorPresenter : MonoBehaviour {
         #region Model側
         //カーソル位置移動
         _cursorModel.CursorPosition
-            //初回のみスキップ
+            //ゲーム開始時のみ処理を行わない
             .Skip(1)
             .Subscribe(cursorPos => {
                 //位置変更
                 _cursorView.PositionChange(cursorPos);
+                //選択しているタイル,カーソルの位置を渡す
+                _shopMenu.DataTell(_cursorModel.TileCoordinateCol, _cursorModel.TileCoordinateRow, cursorPos);
                 //ショップを開く
                 _shopMenu.ShopOpen();
                 //閉じるときに押すのが一回のみ

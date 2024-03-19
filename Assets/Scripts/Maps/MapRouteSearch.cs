@@ -19,12 +19,8 @@ public class MapRouteSearch
     private MapData _mapData = default;
     //探索開始地点
     private int[] _searchedPos = new int[2];
-    //配列で道を示す数字
-    private const int CONST_ROAD_NUMBER = 1;
     //配列でスタートを示す数字
     private const int CONST_START_NUMBER = 2;
-    //配列でゴールを示す数字
-    private const int CONST_GOAL_NUMBER = 3;
     //道のタイル数
     private int _tileCount = 0;
     //曲がり角数
@@ -86,9 +82,9 @@ public class MapRouteSearch
         int indexX = 0;
         int indexY = 0;
         //探索開始位置を探す
-        foreach (int startPos in _mapData.MapDataArray) {
+        foreach (MapDataEnum startPos in _mapData.MapDataArray) {
             //探索開始位置だったら
-            if (startPos == CONST_START_NUMBER) {
+            if (startPos == MapDataEnum.Start) {
                 //探索位置の座標を格納
                 _searchedPos[CONST_Y_NUMBER] = indexY;
                 _searchedPos[CONST_X_NUMBER] = indexX;
@@ -127,7 +123,7 @@ public class MapRouteSearch
                 continue;
             }
             //道を調べているなら
-            if (_mapData.MapDataArray[_searchPos[CONST_Y_NUMBER], _searchPos[CONST_X_NUMBER]] == CONST_ROAD_NUMBER) {
+            if (_mapData.MapDataArray[_searchPos[CONST_Y_NUMBER], _searchPos[CONST_X_NUMBER]] == MapDataEnum.Road) {
                 //タイル数をカウントする
                 _tileCount++;
                 //曲がり角か
@@ -155,7 +151,7 @@ public class MapRouteSearch
                 return;
             }
             //もしゴールなら
-            else if (_mapData.MapDataArray[_searchPos[CONST_Y_NUMBER], _searchPos[CONST_X_NUMBER]] == CONST_GOAL_NUMBER) {
+            else if (_mapData.MapDataArray[_searchPos[CONST_Y_NUMBER], _searchPos[CONST_X_NUMBER]] == MapDataEnum.Goal) {
                 //ゴールのポジションを格納
                 CurvePosition.Add(new int[] { _searchPos[CONST_Y_NUMBER], _searchPos[CONST_X_NUMBER] });
                 return;

@@ -8,7 +8,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TowerBase : MonoBehaviour
+public class TowerBase : MonoBehaviour, ITowerInformationTell 
 {
 
     #region 変数  
@@ -31,10 +31,25 @@ public class TowerBase : MonoBehaviour
     private float _nowTime = default;
     [Tooltip("弾を撃つ時間間隔")]
     protected float _shootTime = default;
+    [SerializeField,Tooltip("タワーの値段"), Header("タワーの値段")]
+    protected int _towerMoney = default;
+    [SerializeField,Tooltip("タワー名"), Header("タワーの名前")]
+    private string _towerName = default;
+    [SerializeField,Tooltip("タワー説明"), Header("タワーの説明")]
+    private string _towerExplanation = default;
 
     #endregion
 
     #region プロパティ  
+    public int TowerMoney {
+        get => _towerMoney;
+    }
+    public string TowerName {
+        get => _towerName;
+    }
+    public string TowerExplanation {
+        get => _towerExplanation;
+    }
 
     #endregion
 
@@ -58,7 +73,7 @@ public class TowerBase : MonoBehaviour
             //時間を初期化
             _nowTime = 0.0f;
             //弾を生成
-            InstBullet(_transform.position, _transform.rotation);
+            CreateBullet(_transform.position, _transform.rotation);
         }
     }
 
@@ -103,7 +118,7 @@ public class TowerBase : MonoBehaviour
     /// </summary>
     /// <param name="pos">生成位置</param>
     /// <param name="rotation">生成時の回転</param>
-    private void InstBullet(Vector3 pos, Quaternion rotation) {
+    private void CreateBullet(Vector3 pos, Quaternion rotation) {
         //現在の弾の名前を取得
         string objectName = _bullet.gameObject.name + "Pool";
         //True→同じ名前のプールがすでに生成されている

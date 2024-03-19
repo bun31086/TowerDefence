@@ -7,9 +7,11 @@
 
 public class NormalTower : TowerBase
 {
-  
+
     #region 変数  
-  
+    
+
+
     #endregion
   
     #region プロパティ  
@@ -21,24 +23,18 @@ public class NormalTower : TowerBase
      /// <summary>  
      /// 初期化処理  
      /// </summary>  
-     void Awake()
-     {
-     }
+     void Awake() {
+    }
 
     /// <summary>  
     /// 更新前処理  
     /// </summary>  
     void Start() {
         _transform = this.transform;
-        //３秒おきに弾を撃つ
+        //１秒おきに弾を撃つ
         _shootTime = 1;
     }
-    ///// <summary>  
-    ///// 更新処理  
-    ///// </summary>  
-    //void Update ()
-    //{
-    //}
+
 
     #endregion
 }
