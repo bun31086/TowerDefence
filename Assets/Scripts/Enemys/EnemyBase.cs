@@ -16,14 +16,18 @@ public class EnemyBase : MonoBehaviour,IDamageable
     private int _moveNumber = default;
     [Tooltip("スタート位置に移動させる際に使用するフラグ")]
     private bool _isFirst = true;
-    [Tooltip("敵の移動スピード")]
-    protected float _speed = default;
     [Tooltip("敵のHP")]
     protected float _hp = default;
-    [Tooltip("敵の攻撃力")]
-    protected int _power = default;
-    [SerializeField,Tooltip("プレイヤーのHPオブジェクト"), Header("プレイヤーのステータスオブジェクト")]
+    //[Tooltip("敵の移動スピード")]
+    //protected float _speed = default;
+    //[Tooltip("敵の攻撃力")]
+    //protected int _power = default;
+    //[Tooltip("敵の所持金")]
+    //protected int _money = default;
+    [Tooltip("プレイヤーのHPオブジェクト"), Header("プレイヤーのステータスオブジェクト")]
     private GameObject _playerStatus = default;
+    [SerializeField,Tooltip("敵のデータ"), Header("敵のスクリプタブルオブジェクト")]
+    private EnemyData _enemyData = default;
 
     #endregion
   
@@ -61,6 +65,7 @@ public class EnemyBase : MonoBehaviour,IDamageable
     private void Move() {
         //一回のみ実行
         if (_isFirst) {
+            _playerStatus = GameObject.Find("PlayerStatus");
             //1つ目のポジションに移動
             transform.position = CurvePosition.Instance.CurvePos[0];
             _isFirst = false;
@@ -73,7 +78,7 @@ public class EnemyBase : MonoBehaviour,IDamageable
             return;
         }
         //次の曲がり角まで移動
-        transform.position = Vector3.MoveTowards(transform.position, CurvePosition.Instance.CurvePos[_moveNumber], _speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, CurvePosition.Instance.CurvePos[_moveNumber], _enemyData.Speed * Time.deltaTime);
         //曲がり角についたら
         if (transform.position == CurvePosition.Instance.CurvePos[_moveNumber]) {
             //次の曲がり角に変更
@@ -90,7 +95,7 @@ public class EnemyBase : MonoBehaviour,IDamageable
         //もしIDamageableを持っていたら
         if (_playerStatus.TryGetComponent(out IDamageable damageable)) {
             //PlayerHPのインターフェースを参照し、ダメージを与える
-            _playerStatus.GetComponent<IDamageable>().DamageHit(_power);
+            _playerStatus.GetComponent<IDamageable>().DamageHit(_enemyData.Power);
         }
     }
 
@@ -103,6 +108,8 @@ public class EnemyBase : MonoBehaviour,IDamageable
         _hp -= damage;
         //もしHPが０より下になったら
         if (_hp <= 0) {
+            //金額を増やす
+            _playerStatus.GetComponent<IMoneyAdd>().MoneyGet(_enemyData.Money); 
             //消す
             this.gameObject.SetActive(false);
         }

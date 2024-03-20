@@ -8,12 +8,12 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TowerBase : MonoBehaviour, ITowerInformationTell 
+public class TowerBase : MonoBehaviour 
 {
 
     #region 変数  
 
-    [SerializeField,Tooltip("撃つ弾の種類"), Header("撃つ弾の種類")] 
+    [Tooltip("撃つ弾の種類")]
     private GameObject _bullet = default;
     [Tooltip("撃つ弾のTransform")]
     private Transform _bulletTransorm = default;
@@ -31,32 +31,40 @@ public class TowerBase : MonoBehaviour, ITowerInformationTell
     private float _nowTime = default;
     [Tooltip("弾を撃つ時間間隔")]
     protected float _shootTime = default;
-    [SerializeField,Tooltip("タワーの値段"), Header("タワーの値段")]
-    protected int _towerMoney = default;
-    [SerializeField,Tooltip("タワー名"), Header("タワーの名前")]
-    private string _towerName = default;
-    [SerializeField,Tooltip("タワー説明"), Header("タワーの説明")]
-    private string _towerExplanation = default;
+    [SerializeField, Tooltip("タワースクリプタブル")]
+    private TowerData _towerData = default;
+    [Tooltip("生成時に使うフラグ")]
+    private bool _isCreated = true;
+    [SerializeField,Tooltip("索敵範囲オブジェクト")]
+    private GameObject _searchObject = default;  
+    [Tooltip("半径を直径にするために使用")]
+    private const int CONST_TWOTIMES = 2;
 
     #endregion
 
     #region プロパティ  
-    public int TowerMoney {
-        get => _towerMoney;
-    }
-    public string TowerName {
-        get => _towerName;
-    }
-    public string TowerExplanation {
-        get => _towerExplanation;
-    }
 
     #endregion
 
     #region メソッド  
 
+    /// <summary>
+    /// タワーが生成されたときに行う処理
+    /// </summary>
+    private void Created() {
+        //弾をアタッチ
+        _bullet = _towerData.TowerBullet;
+        //索敵範囲オブジェクトの大きさを変更
+        _searchObject.transform.localScale = new Vector2(_towerData.SearchRange * CONST_TWOTIMES, _towerData.SearchRange * CONST_TWOTIMES);
+    }
+
 
     protected void Update() {
+        //生成時だったら
+        if (_isCreated) {
+            //初期化
+            Created();
+        }
         //一番近い敵を向く
         TowerMove();
         //時間を数える
@@ -83,7 +91,7 @@ public class TowerBase : MonoBehaviour, ITowerInformationTell
     private void TowerMove() {
         //全ての敵を配列に格納
         GameObject[] enemys = GameObject.FindGameObjectsWithTag("Enemy");
-        //敵がいなかったら
+        //配列に敵が一体も入っていなかったら
         if (enemys.Length == 0) {
             //ターゲットを空にする
             _nearestEnemy = null;
@@ -105,6 +113,24 @@ public class TowerBase : MonoBehaviour, ITowerInformationTell
                 _nearestEnemy = enemy;
             }
         }
+        //敵がいなかったら
+        if (_nearestEnemy == null) {
+            //処理を中断
+            return;
+        }
+        //敵のポジションを取得
+        Vector3 targetPos = _nearestEnemy.transform.position;
+        //タワーのポジションを取得
+        Vector3 towerPos = this.transform.position;    
+        //タワーと敵の距離を取得
+        float dis = Vector3.Distance(targetPos, towerPos);
+        //敵が索敵距離内にいなかったら
+        if (dis > _towerData.SearchRange) {
+            //ターゲットを空にする
+            _nearestEnemy = null;
+            //処理を中断
+            return;
+        }
         //一番近い敵を向く
         Vector3 diff = (_nearestEnemy.transform.position - this.transform.position).normalized;
         Quaternion quaternionTest = new Quaternion(0,0, Quaternion.FromToRotation(Vector3.up, diff).z, Quaternion.FromToRotation(Vector3.up, diff).w);
@@ -122,7 +148,7 @@ public class TowerBase : MonoBehaviour, ITowerInformationTell
         //現在の弾の名前を取得
         string objectName = _bullet.gameObject.name + "Pool";
         //True→同じ名前のプールがすでに生成されている
-        bool isCreated = false;
+        bool isCreated = false;        
         //生成されているプール分繰り返す
         foreach (string poolName in CreatedPool.Instance.PoolList) {
             //もしまだその弾のプールが生成されているなら

@@ -7,7 +7,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerStatus : MonoBehaviour,IDamageable
+public class PlayerStatus : MonoBehaviour,IDamageable,IMoneyAdd
 {
 
     #region 変数  
@@ -21,9 +21,11 @@ public class PlayerStatus : MonoBehaviour,IDamageable
     #endregion
 
     #region プロパティ  
+    public int PlayerHP {
+        get => _playerHP;
+    }
     public int PlayerMoney {
         get => _playerMoney;
-        set => _playerMoney = value;
     }
 
     #endregion
@@ -36,6 +38,13 @@ public class PlayerStatus : MonoBehaviour,IDamageable
     /// <param name="damage">ダメージ量</param>
     public void DamageHit(int damage) {
         _playerHP -= damage;
+    }
+    /// <summary>
+    /// 金取得処理
+    /// </summary>
+    /// <param name="damage">金額</param>
+    public void MoneyGet(int money) {
+        _playerMoney += money;
     }
 
     #endregion

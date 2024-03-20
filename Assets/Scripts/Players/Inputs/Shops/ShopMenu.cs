@@ -20,8 +20,8 @@ public class ShopMenu : MonoBehaviour
     private Transform _shopTransform = default;
     [Tooltip("メニューの座標")]
     private Vector2 _shopPos = default;
-    [SerializeField,Tooltip("ずらすX座標")]
-    private float _shopX = 1000;
+    [Tooltip("ずらすX座標")]
+    private const float CONST_SHOP_X = 1000;
     [Tooltip("ショップが開かれているか")]
     private bool _isShop = false;
     [Tooltip("ショップのボタンを押されて一回目のみショップを閉じないようにする")]
@@ -46,18 +46,24 @@ public class ShopMenu : MonoBehaviour
     private Text _towerNameText = default;
     [SerializeField, Tooltip("タワー説明テキスト")]
     private Text _towerExplanationText = default;
+    [SerializeField, Tooltip("タワー金額テキスト")]
+    private Text _towerMoneyText = default;
     [SerializeField,Tooltip("購入ボタンやテキスト")]
     private GameObject _buyObjects = default;
     [SerializeField, Tooltip("タワーボタン")]
     private GameObject _towerObjects = default;
     [SerializeField, Tooltip("プレイヤーのHPオブジェクト"), Header("プレイヤーのステータスオブジェクト")]
-    private PlayerStatus _playerStatus = default;
+    private GameObject _playerStatusObject = default;
     [Tooltip("選択しているタワーの金額")]
     private int _towerMoney = default;
     [Tooltip("選択しているタワーの名前")]
     private string _towerName = default;
     [Tooltip("選択しているタワーの説明")]
     private string _towerExplanation = default;
+    [SerializeField, Tooltip("タワーの説明等スクリプタブル"), Header("タワースクリプタブルオブジェクト")]
+    private TowerData[] _towerData = default;
+    [Tooltip("プレイヤーステータス")]
+    private PlayerStatus _playerStatus = default;
 
     #endregion
 
@@ -81,6 +87,7 @@ public class ShopMenu : MonoBehaviour
      void Start ()
      {
         _shopTransform = _shopMenu.transform;
+        _playerStatus = _playerStatusObject.GetComponent<PlayerStatus>();
      }
 
     /// <summary>  
@@ -88,7 +95,6 @@ public class ShopMenu : MonoBehaviour
     /// </summary>  
     void Update ()
      {
-
      }
 
     /// <summary>
@@ -115,7 +121,7 @@ public class ShopMenu : MonoBehaviour
             //タイルの種類に合わせた説明画面を表示
             TextChange();
             //x座標だけを変更する
-            _shopPos.x = _shopTransform.position.x - _shopX;
+            _shopPos.x = _shopTransform.position.x - CONST_SHOP_X;
             _shopPos.y = _shopTransform.position.y;
             //ショップフラグをON
             IsShop = true;
@@ -131,7 +137,7 @@ public class ShopMenu : MonoBehaviour
         //ショップが開かれているなら
         if (IsShop && IsShopFirst) {
             //x座標だけを変更する
-            _shopPos.x = _shopTransform.position.x + _shopX;
+            _shopPos.x = _shopTransform.position.x + CONST_SHOP_X;
             _shopPos.y = _shopTransform.position.y;
             //ショップフラグをOFF
             IsShop = false;
@@ -198,15 +204,22 @@ public class ShopMenu : MonoBehaviour
     public void TowerButton(GameObject tower) {
         //押されているボタンに対応するタワーを格納
         _selectedTower = tower;
-        //インターフェースキャッシュ
-        ITowerInformationTell iTowerInformationTell = _selectedTower.GetComponent<ITowerInformationTell>();
-        //そのタワーの金額を取得
-        _towerMoney = iTowerInformationTell.TowerMoney;
-        //そのタワーの名前を取得
-        _towerName = iTowerInformationTell.TowerName;
-        //そのタワーの説明を取得
-        _towerExplanation = iTowerInformationTell.TowerExplanation;
+        //アタッチされているスクリプタブルオブジェクトの数、繰り返す
+        foreach (TowerData towerScriptable in _towerData) {
+            //選択されているタワーとスクリプタブルオブジェクトのタワーが同じだったら
+            if (_selectedTower == towerScriptable.TowerObject) {
+                //そのタワーの金額を取得
+                _towerMoney = towerScriptable.TowerMoney;
+                //そのタワーの名前を取得
+                _towerName = towerScriptable.TowerName;
+                //そのタワーの説明を取得
+                _towerExplanation = towerScriptable.TowerExplanation;
+                //Foreachを終了する
+                break;
+            }
+        }
         //タワー説明、確定ボタンを表示
+        _towerMoneyText.text = _towerMoney + "円";
         _towerNameText.text = _towerName;
         _towerExplanationText.text = _towerExplanation;
         //タワー購入ボタンなどを表示
@@ -224,9 +237,11 @@ public class ShopMenu : MonoBehaviour
             //配列を変更
             MapData.Instance.MapDataArray[_tileCoordinateCol, _tileCoordinateRow] = MapDataEnum.Tower;
             //タワーの金額分減らす
-            _playerStatus.PlayerMoney -= _towerMoney;
+            _playerStatusObject.GetComponent<IMoneyAdd>().MoneyGet(-_towerMoney);
             //メニューを閉じる
             ShopClose();
+            DataTell(_tileCoordinateCol, _tileCoordinateRow, _towerPos);
+            TextChange();
         }
         //足りていないなら
         else {

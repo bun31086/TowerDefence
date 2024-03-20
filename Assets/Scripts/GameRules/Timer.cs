@@ -1,13 +1,13 @@
 // ---------------------------------------------------------  
-// CreateTower.cs  
-// タワーを生成する
-// 作成日:  3/14
+// Timer.cs  
+// 時間計測
+// 作成日:  3/20
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
 
-public class CreateTower : MonoBehaviour
+public class Timer : MonoBehaviour
 {
   
     #region 変数  

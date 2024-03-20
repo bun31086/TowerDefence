@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9064a4293d738204e95a6228d237671b, type: 3}
+  m_Name: StrongTower
+  m_EditorClassIdentifier: 
+  _towerObject: {fileID: 2606748273382624019, guid: e3e37503cfcedb54fa3dd4e1e08eb122, type: 3}
+  _towerBullet: {fileID: 2292559287094387158, guid: f236689ca045c6a45b212161270f1ee4, type: 3}
+  _towerMoney: 70
+  _towerName: "\u30B9\u30C8\u30ED\u30F3\u30B0\u30BF\u30EF\u30FC"
+  _towerExplanation: "\u666E\u901A\u306E\u30BF\u30EF\u30FC\u3088\u308A\u9023\u5C04\u901F\u5EA6\u306F\u9045\u3044\u304C\u3001\u30C0\u30E1\u30FC\u30B8\u304C\u9AD8\u3044"
+  _searchRange: 3

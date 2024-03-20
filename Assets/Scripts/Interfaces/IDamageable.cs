@@ -4,8 +4,7 @@
 // 作成日:  3/14
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
-
-interface IDamageable
+public interface IDamageable
 {
     public void DamageHit(int damage);
 }

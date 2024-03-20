@@ -32,10 +32,12 @@ public class SpeedEnemy : EnemyBase
      {
         //敵のHPを設定
         _hp = 80;
-        //敵の移動スピードを設定
-        _speed = 6;
-        //敵の攻撃力を設定
-        _power = 1;
+        ////敵の移動スピードを設定
+        //_speed = 6;
+        ////敵の攻撃力を設定
+        //_power = 1;
+        ////敵の所持金を設定
+        //_money = 20;
     }
 
     /// <summary>  
