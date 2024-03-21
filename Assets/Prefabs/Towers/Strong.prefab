@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 110874084367177748}
   - component: {fileID: 2403922664820897990}
-  - component: {fileID: 1645087512919407766}
   m_Layer: 0
   m_Name: Strong
   m_TagString: Untagged
@@ -76,8 +75,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0, g: 0.08871651, b: 1, a: 1}
+  m_Sprite: {fileID: 7482667652216324306, guid: db750325989564987a34393247d883b4, type: 3}
+  m_Color: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -87,20 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1645087512919407766
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2606748273382624019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77b878419ac477c4491b9dbab6b8f758, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _towerData: {fileID: 11400000, guid: da02dbca631c885408c880e46f08c022, type: 2}
-  _searchObject: {fileID: 7805353118115260656}
 --- !u!1 &4428202396191359806
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,6 +96,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1211581034070090056}
   - component: {fileID: 2064217699373018966}
+  - component: {fileID: 5977879683817784278}
   m_Layer: 0
   m_Name: Square (2)
   m_TagString: Untagged
@@ -127,8 +113,8 @@ Transform:
   m_GameObject: {fileID: 4428202396191359806}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 0.39999998, y: 0.39999998, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 110874084367177748}
@@ -174,8 +160,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 0.08627451, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 102f05344dff1e34597448133c364268, type: 3}
+  m_Color: {r: 0.4056604, g: 0.4056604, b: 0.4056604, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -185,6 +171,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5977879683817784278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4428202396191359806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77b878419ac477c4491b9dbab6b8f758, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _towerData: {fileID: 11400000, guid: da02dbca631c885408c880e46f08c022, type: 2}
+  _searchObject: {fileID: 7805353118115260656}
 --- !u!1 &7805353118115260656
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,7 +259,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.19607843}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.078431375}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

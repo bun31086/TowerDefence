@@ -30,7 +30,7 @@ public class NormalEnemy : EnemyBase {
      void Start ()
      {
         //敵のHPを設定
-        _hp = 100;
+       // _hp = 100;
         ////敵の移動スピードを設定
         //_speed = 2;
         ////敵の攻撃力を設定

@@ -7,6 +7,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using UniRx;
 
 public class GameFlow : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class GameFlow : MonoBehaviour
     #region 変数  
 
     [Tooltip("WAVE数")]
-    private int _waveCount = default;
+    private IntReactiveProperty _waveCount = new IntReactiveProperty();
     [Tooltip("召喚している敵リスト")]
     private List<GameObject> _enemyList = new List<GameObject>();
     [SerializeField, Tooltip("Waveを格納"), Header("Waveを１から順番にアタッチ")]
@@ -43,8 +44,12 @@ public class GameFlow : MonoBehaviour
     private PlayerStatus _playerStatus = default;
     [SerializeField, Tooltip("ランダム生成に使う敵の種類"),Header("敵の種類一覧")]
     private GameObject[] _enemyTypes = default;
-    [SerializeField,Tooltip("準備時間が終わったとき")]
+    [Tooltip("準備時間が終わったとき")]
     private bool _isPreparation = false;
+    [SerializeField, Tooltip("ゲームUI")]
+    private GameObject _gameUI = default;
+    [SerializeField, Tooltip("リザルト画面")]
+    private GameObject _resultObject = default;
 
     /// <summary>
     /// ゲームの状態
@@ -55,14 +60,14 @@ public class GameFlow : MonoBehaviour
         Buttle,         //戦闘
         Result,         //リザルト
     }
-
-    [SerializeField]
     private GameState _gameState = default;
 
     #endregion
-  
+
     #region プロパティ  
-  
+
+    public IReadOnlyReactiveProperty<int> WaveCount => _waveCount;
+
     #endregion
   
     #region メソッド  
@@ -91,7 +96,7 @@ public class GameFlow : MonoBehaviour
          */
         _gameState = GameState.Start;
         //WAVE数初期化
-        _waveCount = 0;
+        _waveCount.Value = 0;
         //生成場所を設定
         _enemyPos = new Vector2(100, 100);
         //インターバルを設定
@@ -123,13 +128,13 @@ public class GameFlow : MonoBehaviour
                     //コルーチン開始
                     StartCoroutine(nameof(PreparationTime));
                     //WAVE数を１追加
-                    _waveCount++;
+                    _waveCount.Value++;
                     //リスト初期化
                     _nowWaveEnemy = new List<GameObject>();
                     //もし用意されたウェーブデータよりウェーブ数が多くなったら
-                    if (_waveCount > _waveData.Length) {
+                    if (_waveCount.Value > _waveData.Length) {
                         //敵を自動ランダム生成
-                        for (int x = 0; x < _waveCount * 2; x++) {
+                        for (int x = 0; x < _waveCount.Value * 2; x++) {
                             //ランダムで敵を選出
                             int number = Random.Range(0, _enemyTypes.Length);
                             //敵を生成
@@ -143,7 +148,7 @@ public class GameFlow : MonoBehaviour
                     //まだウェーブデータがあるなら
                     else {
                         //そのウェーブの敵の数、繰り返す
-                        foreach (GameObject enemy in _waveData[_waveCount + _offset].WaveEnemy) {
+                        foreach (GameObject enemy in _waveData[_waveCount.Value + _offset].WaveEnemy) {
                             //敵を生成
                             GameObject spawnedEnemy = Instantiate(enemy, _enemyPos, Quaternion.identity, _enemyFolder.transform);
                             //生成した敵をリストに入れる
@@ -171,7 +176,7 @@ public class GameFlow : MonoBehaviour
                     _isCoroutine = true;
                 }
                 //もしプレイヤーのHPが０になったら
-                if (_playerStatus.PlayerHP <= 0) {
+                if (_playerStatus.PlayerHP.Value <= 0) {
                     //Resultへ
                     _gameState = GameState.Result;
                     //処理を中断
@@ -198,6 +203,9 @@ public class GameFlow : MonoBehaviour
                 break;
             case GameState.Result:
                 Debug.LogError("リザルト");
+                _gameUI.SetActive(false);
+                _resultObject.SetActive(true);
+                Time.timeScale = 0;
                 break;
         }
      }

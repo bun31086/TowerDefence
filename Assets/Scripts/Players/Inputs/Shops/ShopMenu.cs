@@ -194,6 +194,22 @@ public class ShopMenu : MonoBehaviour
                 //タワー購入ボタンなどを未表示
                 _buyObjects.SetActive(false);
                 break;
+            case MapDataEnum.Wood:      //木
+                _tileName.text = "木";
+                _tileExplanation.text = "木";
+                //タワー選択ボタンを未表示
+                _towerObjects.SetActive(false);
+                //タワー購入ボタンなどを未表示
+                _buyObjects.SetActive(false);
+                break;
+            case MapDataEnum.Stone:     //石
+                _tileName.text = "石";
+                _tileExplanation.text = "石";
+                //タワー選択ボタンを未表示
+                _towerObjects.SetActive(false);
+                //タワー購入ボタンなどを未表示
+                _buyObjects.SetActive(false);
+                break;
         }
 
     }
@@ -235,7 +251,7 @@ public class ShopMenu : MonoBehaviour
     /// </summary>
     public void DecideToBuy() {
         //もし金額が足りているなら
-        if (_playerStatus.PlayerMoney >= _towerMoney) {
+        if (_playerStatus.PlayerMoney.Value >= _towerMoney) {
             //タワーを生成
             Instantiate(_selectedTower, _towerPos, Quaternion.identity, _towerFolder.transform);
             //配列を変更

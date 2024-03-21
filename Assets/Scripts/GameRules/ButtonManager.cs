@@ -6,6 +6,7 @@
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -103,7 +104,17 @@ public class ButtonManager : MonoBehaviour
     /// タイトルに戻るボタンが押されたとき
     /// </summary>
     public void BackTitle() {
-        
+        //タイトルシーンに移動
+        SceneManager.LoadScene("TitleScene");
+    }
+
+
+    /// <summary>
+    /// ゲーム開始ボタン
+    /// </summary>
+    public void GameStart() {
+        //ゲームシーンに移動
+        SceneManager.LoadScene("StageScene");
     }
 
     #endregion

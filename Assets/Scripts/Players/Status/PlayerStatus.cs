@@ -6,6 +6,7 @@
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
+using UniRx;
 
 public class PlayerStatus : MonoBehaviour,IDamageable,IMoneyAdd
 {
@@ -13,20 +14,16 @@ public class PlayerStatus : MonoBehaviour,IDamageable,IMoneyAdd
     #region 変数  
 
     [SerializeField,Tooltip("プレイヤーの機数"), Header("プレイヤー残機")]
-    private int _playerHP = 5;
+    private IntReactiveProperty _playerHP = new IntReactiveProperty(5);
     [SerializeField, Tooltip("プレイヤーの所持金"), Header("プレイヤー所持金")]
-    private int _playerMoney = 100;
+    private IntReactiveProperty _playerMoney = new IntReactiveProperty(100);
 
 
     #endregion
 
     #region プロパティ  
-    public int PlayerHP {
-        get => _playerHP;
-    }
-    public int PlayerMoney {
-        get => _playerMoney;
-    }
+    public IReadOnlyReactiveProperty<int> PlayerHP => _playerHP;
+    public IReadOnlyReactiveProperty<int> PlayerMoney => _playerMoney;
 
     #endregion
 
@@ -37,14 +34,14 @@ public class PlayerStatus : MonoBehaviour,IDamageable,IMoneyAdd
     /// </summary>
     /// <param name="damage">ダメージ量</param>
     public void DamageHit(int damage) {
-        _playerHP -= damage;
+        _playerHP.Value -= damage;
     }
     /// <summary>
     /// 金取得処理
     /// </summary>
     /// <param name="damage">金額</param>
     public void MoneyGet(int money) {
-        _playerMoney += money;
+        _playerMoney.Value += money;
     }
 
     #endregion

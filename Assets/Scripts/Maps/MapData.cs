@@ -15,7 +15,8 @@ public enum MapDataEnum {
     Start,
     Goal,
     Tower,
-
+    Wood,
+    Stone,
 }
 
 public class MapData : SingletonMonoBehaviour<MapData>

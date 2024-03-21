@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93bb97cdf318fd84497935167d75623b, type: 3}
   m_Name: SpeedEnemy
   m_EditorClassIdentifier: 
-  _hp: 50
+  _hp: 30
   _speed: 6
   _power: 1
   _money: 20

@@ -28,6 +28,8 @@ public class EnemyBase : MonoBehaviour,IDamageable
     private GameObject _playerStatus = default;
     [SerializeField,Tooltip("敵のデータ"), Header("敵のスクリプタブルオブジェクト")]
     private EnemyData _enemyData = default;
+    [SerializeField,Tooltip("敵のスプライト"),Header("敵のスプライトレンダラー")]
+    private SpriteRenderer _enemySprite = default;
 
     #endregion
   
@@ -66,6 +68,8 @@ public class EnemyBase : MonoBehaviour,IDamageable
         //一回のみ実行
         if (_isFirst) {
             _playerStatus = GameObject.Find("PlayerStatus");
+            //HPを取得
+            _hp = _enemyData.Hp;
             //1つ目のポジションに移動
             transform.position = CurvePosition.Instance.CurvePos[0];
             _isFirst = false;
@@ -77,8 +81,20 @@ public class EnemyBase : MonoBehaviour,IDamageable
             //処理を中断
             return;
         }
+        //前の座標を格納
+        Vector3 beforePos = transform.position;
         //次の曲がり角まで移動
         transform.position = Vector3.MoveTowards(transform.position, CurvePosition.Instance.CurvePos[_moveNumber], _enemyData.Speed * Time.deltaTime);
+        //もし右に進んだいたら
+        if (beforePos.x < transform.position.x) {
+            //スプライトを反転させる
+            _enemySprite.flipX = true;
+        }
+        //左に進んでいたら
+        else if (beforePos.x > transform.position.x) {
+            //スプライトを戻す
+            _enemySprite.flipX = false;
+        }
         //曲がり角についたら
         if (transform.position == CurvePosition.Instance.CurvePos[_moveNumber]) {
             //次の曲がり角に変更

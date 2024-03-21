@@ -14,6 +14,8 @@ public class EnemyData : ScriptableObject
 
     #region 変数  
 
+    [SerializeField, Tooltip("敵のHP"), Header("敵のHP")]
+    private int _hp = default;
     [SerializeField, Tooltip("敵の移動スピード"), Header("敵の移動速度")]
     private float _speed = default;
     [SerializeField, Tooltip("敵の攻撃力"), Header("敵の攻撃力")]
@@ -27,15 +29,15 @@ public class EnemyData : ScriptableObject
     #region プロパティ  
     public float Speed {
         get => _speed;
-        set => _speed = value;
     }
     public int Power {
         get => _power;
-        set => _power = value;
     }
     public int Money {
         get => _money;
-        set => _money = value;
+    }
+    public int Hp {
+        get => _hp;
     }
 
     #endregion

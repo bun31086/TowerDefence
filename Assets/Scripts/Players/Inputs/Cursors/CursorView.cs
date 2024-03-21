@@ -7,6 +7,7 @@
 using UnityEngine;
 using UniRx;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class CursorView : MonoBehaviour {
 

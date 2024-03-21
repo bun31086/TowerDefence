@@ -31,7 +31,7 @@ public class SpeedEnemy : EnemyBase
      void Start ()
      {
         //敵のHPを設定
-        _hp = 80;
+        //_hp = 80;
         ////敵の移動スピードを設定
         //_speed = 6;
         ////敵の攻撃力を設定

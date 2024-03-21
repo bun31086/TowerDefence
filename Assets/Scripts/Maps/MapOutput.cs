@@ -45,7 +45,7 @@ public class MapOutput : MonoBehaviour
     /// <summary>  
     /// 更新前処理  
     /// </summary>  
-    void Start ()
+    void Awake ()
      {
         Output();
      }
@@ -76,8 +76,8 @@ public class MapOutput : MonoBehaviour
         foreach (Vector3Int pos in _tileMap.cellBounds.allPositionsWithin) {
             // タイルが無かったら
             if (!_tileMap.HasTile(pos)) {
-                //処理を中断
-                return;
+                //処理を飛ばす
+                continue;
             }
             //タイルの種類分繰り返す
             int index = default;
@@ -97,7 +97,7 @@ public class MapOutput : MonoBehaviour
         for (int y = 0; y < _vartical; y++) {
             string outPutString = "";
             for (int x = 0; x < _horizontal; x++) {
-                outPutString += mapData.MapDataArray[y, x];
+                outPutString += (int)mapData.MapDataArray[y, x];
             }
             print(outPutString);
         }
