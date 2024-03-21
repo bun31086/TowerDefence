@@ -6,6 +6,7 @@
 // ---------------------------------------------------------  
 using UnityEngine;
 using UniRx;
+using UnityEngine.EventSystems;
 
 public class CursorView : MonoBehaviour {
 
@@ -44,6 +45,11 @@ public class CursorView : MonoBehaviour {
     /// 更新処理  
     /// </summary>  
     private void Update() {
+        //もしUI関連が押されたら
+        if (EventSystem.current.IsPointerOverGameObject()) {
+            //処理を中断
+            return;
+        }
         //もしマウスの右クリックが押されたら
         if (Input.GetMouseButtonDown(0)) {
             //スクリーン座標を格納する

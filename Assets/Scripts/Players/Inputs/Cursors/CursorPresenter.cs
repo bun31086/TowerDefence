@@ -30,7 +30,7 @@ public class CursorPresenter : MonoBehaviour {
         //カーソル位置計算
         _cursorView.TouchScreenPosition
             //メニューが開かれていないとき
-            .Where(_ => _shopMenu.IsShop == false)
+            .Where(_ => _shopMenu.IsShop.Value == false)
             .Subscribe(touchPoint => {
                 //座標計算
                 _cursorModel.SearchPos(touchPoint);

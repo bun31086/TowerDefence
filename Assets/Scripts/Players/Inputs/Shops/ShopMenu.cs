@@ -8,7 +8,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
-
+using UniRx;
 public class ShopMenu : MonoBehaviour
 {
 
@@ -23,7 +23,7 @@ public class ShopMenu : MonoBehaviour
     [Tooltip("ずらすX座標")]
     private const float CONST_SHOP_X = 1000;
     [Tooltip("ショップが開かれているか")]
-    private bool _isShop = false;
+    private BoolReactiveProperty _isShop = new BoolReactiveProperty();
     [Tooltip("ショップのボタンを押されて一回目のみショップを閉じないようにする")]
     private bool _isShopFirst = default;
     [SerializeField, Tooltip("タワーを生成時に親にするゲームオブジェクト"),Header("タワーをまとめるフォルダー")]
@@ -60,6 +60,8 @@ public class ShopMenu : MonoBehaviour
     private string _towerName = default;
     [Tooltip("選択しているタワーの説明")]
     private string _towerExplanation = default;
+    [Tooltip("選択しているタワーの射撃範囲")]
+    private FloatReactiveProperty _towerRange = new FloatReactiveProperty();
     [SerializeField, Tooltip("タワーの説明等スクリプタブル"), Header("タワースクリプタブルオブジェクト")]
     private TowerData[] _towerData = default;
     [Tooltip("プレイヤーステータス")]
@@ -68,23 +70,22 @@ public class ShopMenu : MonoBehaviour
     #endregion
 
     #region プロパティ  
-    public bool IsShop {
-        get => _isShop;
-        set => _isShop = value;
-    }
     public bool IsShopFirst {
         get => _isShopFirst;
         set => _isShopFirst = value;
     }
+    public IReadOnlyReactiveProperty<float> TowerRange => _towerRange;
+
+    public ReactiveProperty<bool> IsShop => _isShop;
 
     #endregion
 
     #region メソッド  
 
-     /// <summary>  
-     /// 更新前処理  
-     /// </summary>  
-     void Start ()
+    /// <summary>  
+    /// 更新前処理  
+    /// </summary>  
+    void Start ()
      {
         _shopTransform = _shopMenu.transform;
         _playerStatus = _playerStatusObject.GetComponent<PlayerStatus>();
@@ -117,14 +118,14 @@ public class ShopMenu : MonoBehaviour
     /// </summary>
     public void ShopOpen() {
         //ショップが開かれていないなら
-        if (!IsShop) {
+        if (!IsShop.Value) {
             //タイルの種類に合わせた説明画面を表示
             TextChange();
             //x座標だけを変更する
             _shopPos.x = _shopTransform.position.x - CONST_SHOP_X;
             _shopPos.y = _shopTransform.position.y;
             //ショップフラグをON
-            IsShop = true;
+            IsShop.Value = true;
             //メニューを移動させる
             _shopTransform.position = _shopPos;
         }
@@ -135,12 +136,12 @@ public class ShopMenu : MonoBehaviour
     /// </summary>
     public void ShopClose() {
         //ショップが開かれているなら
-        if (IsShop && IsShopFirst) {
+        if (IsShop.Value && IsShopFirst) {
             //x座標だけを変更する
             _shopPos.x = _shopTransform.position.x + CONST_SHOP_X;
             _shopPos.y = _shopTransform.position.y;
             //ショップフラグをOFF
-            IsShop = false;
+            IsShop.Value = false;
             //メニューを移動させる
             _shopTransform.position = _shopPos;
             //一回目のみショップを閉じないようにする
@@ -214,6 +215,9 @@ public class ShopMenu : MonoBehaviour
                 _towerName = towerScriptable.TowerName;
                 //そのタワーの説明を取得
                 _towerExplanation = towerScriptable.TowerExplanation;
+                //そのタワーの射撃範囲を取得
+                _towerRange.Value = towerScriptable.SearchRange;
+                print(_towerRange.Value);
                 //Foreachを終了する
                 break;
             }

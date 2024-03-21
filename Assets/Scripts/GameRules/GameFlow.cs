@@ -27,10 +27,14 @@ public class GameFlow : MonoBehaviour
     private List<GameObject> _nowWaveEnemy =default;
     [Tooltip("敵生成インターバル")]
     private int _createInterval = 1;
+    [Tooltip("準備時間")]
+    private int _preparationTime = 10;
     [Tooltip("配列を0スタートするために使用")]
     private int _offset = default;
-    [Tooltip("待ち時間")]
+    [Tooltip("敵生成待ち時間")]
     private WaitForSeconds _spawnWait = default;
+    [Tooltip("準備待ち時間")]
+    private WaitForSeconds _preparationWait = default;
     [Tooltip("コルーチンを一度のみ再生")]
     private bool _isCoroutine = false;
     [Tooltip("WAVEの敵をすべて生成したらTrue")]
@@ -39,6 +43,8 @@ public class GameFlow : MonoBehaviour
     private PlayerStatus _playerStatus = default;
     [SerializeField, Tooltip("ランダム生成に使う敵の種類"),Header("敵の種類一覧")]
     private GameObject[] _enemyTypes = default;
+    [SerializeField,Tooltip("準備時間が終わったとき")]
+    private bool _isPreparation = false;
 
     /// <summary>
     /// ゲームの状態
@@ -50,6 +56,7 @@ public class GameFlow : MonoBehaviour
         Result,         //リザルト
     }
 
+    [SerializeField]
     private GameState _gameState = default;
 
     #endregion
@@ -89,6 +96,7 @@ public class GameFlow : MonoBehaviour
         _enemyPos = new Vector2(100, 100);
         //インターバルを設定
         _spawnWait = new WaitForSeconds(_createInterval);
+        _preparationWait = new WaitForSeconds(_preparationTime);
         //オフセット設定
         _offset = -1;
      }
@@ -103,46 +111,56 @@ public class GameFlow : MonoBehaviour
                 //チュートリアル画面を表示
 
                 //スタートボタンを押すとPreparationへ
-
+                _isPreparation = false;
                 _gameState = GameState.Preparation;
 
                 break;
             case GameState.Preparation:
-                //WAVE数を１追加
-                _waveCount++;
-                //リスト初期化
-                _nowWaveEnemy = new List<GameObject>();
-                //もし用意されたウェーブデータよりウェーブ数が多くなったら
-                if (_waveCount > _waveData.Length) {
-                    //敵を自動ランダム生成
-                    for (int x = 0; x < _waveCount * 2; x++) {
-                        //ランダムで敵を選出
-                        int number = Random.Range(0, _enemyTypes.Length);
-                        //敵を生成
-                        GameObject spawnedEnemy = Instantiate(_enemyTypes[number], _enemyPos, Quaternion.identity,_enemyFolder.transform);
-                        //生成した敵をリストに入れる
-                        _nowWaveEnemy.Add(spawnedEnemy);
-                        //非アクティブ化
-                        spawnedEnemy.SetActive(false);
+                //毎ウェーブ一度のみ実行
+                if (!_isCoroutine) {
+                    //フラグ変更
+                    _isCoroutine = true;
+                    //コルーチン開始
+                    StartCoroutine(nameof(PreparationTime));
+                    //WAVE数を１追加
+                    _waveCount++;
+                    //リスト初期化
+                    _nowWaveEnemy = new List<GameObject>();
+                    //もし用意されたウェーブデータよりウェーブ数が多くなったら
+                    if (_waveCount > _waveData.Length) {
+                        //敵を自動ランダム生成
+                        for (int x = 0; x < _waveCount * 2; x++) {
+                            //ランダムで敵を選出
+                            int number = Random.Range(0, _enemyTypes.Length);
+                            //敵を生成
+                            GameObject spawnedEnemy = Instantiate(_enemyTypes[number], _enemyPos, Quaternion.identity, _enemyFolder.transform);
+                            //生成した敵をリストに入れる
+                            _nowWaveEnemy.Add(spawnedEnemy);
+                            //非アクティブ化
+                            spawnedEnemy.SetActive(false);
+                        }
+                    }
+                    //まだウェーブデータがあるなら
+                    else {
+                        //そのウェーブの敵の数、繰り返す
+                        foreach (GameObject enemy in _waveData[_waveCount + _offset].WaveEnemy) {
+                            //敵を生成
+                            GameObject spawnedEnemy = Instantiate(enemy, _enemyPos, Quaternion.identity, _enemyFolder.transform);
+                            //生成した敵をリストに入れる
+                            _nowWaveEnemy.Add(spawnedEnemy);
+                            //非アクティブ化
+                            spawnedEnemy.SetActive(false);
+                        }
                     }
                 }
-                //まだウェーブデータがあるなら
-                else {
-                    //そのウェーブの敵の数、繰り返す
-                    foreach (GameObject enemy in _waveData[_waveCount + _offset].WaveEnemy) {
-                        //敵を生成
-                        GameObject spawnedEnemy = Instantiate(enemy, _enemyPos, Quaternion.identity, _enemyFolder.transform);
-                        //生成した敵をリストに入れる
-                        _nowWaveEnemy.Add(spawnedEnemy);
-                        //非アクティブ化
-                        spawnedEnemy.SetActive(false);
-                    }
+                //制限時間すぎたら
+                if (_isPreparation) {
+                    //フラグ変更
+                    _isCoroutine = false;
+                    _isCreated = false;
+                    //Buttleへ
+                    _gameState = GameState.Buttle;
                 }
-                //フラグ変更
-                _isCoroutine = false;
-                _isCreated = false;
-                //制限時間すぎたらButtleへ
-                _gameState = GameState.Buttle;
                 break;
             case GameState.Buttle:
                 //はじめのみ
@@ -151,6 +169,13 @@ public class GameFlow : MonoBehaviour
                     StartCoroutine(nameof(EnemySpawn));
                     //フラグ変更
                     _isCoroutine = true;
+                }
+                //もしプレイヤーのHPが０になったら
+                if (_playerStatus.PlayerHP <= 0) {
+                    //Resultへ
+                    _gameState = GameState.Result;
+                    //処理を中断
+                    return;
                 }
                 //敵が全て生成されていないとき
                 if (!_isCreated) {
@@ -165,13 +190,9 @@ public class GameFlow : MonoBehaviour
                         return;
                     }
                 }
-                //もしプレイヤーのHPが０になったら
-                if (_playerStatus.PlayerHP == 0) {
-                    //Resultへ
-                    _gameState = GameState.Result;
-                    //処理を中断
-                    return;
-                }
+                //準備時間フラグ更新
+                _isPreparation = false;
+                _isCoroutine = false;
                 //全ての敵が倒されたときPreparationへ
                 _gameState = GameState.Preparation;
                 break;
@@ -196,6 +217,18 @@ public class GameFlow : MonoBehaviour
         _isCreated = true;
         //全ての敵を生成後、コルーチン停止
         StopCoroutine(nameof(EnemySpawn));
+    }
+
+    /// <summary>
+    /// 準備時間管理
+    /// </summary>
+    private IEnumerator PreparationTime() {
+        //準備時間分待つ
+        yield return _preparationWait;
+        //待ち時間が終わったらフラグを変更
+        _isPreparation = true;
+        //待ち時間終了後、コルーチン停止
+        StopCoroutine(nameof(PreparationTime));
     }
 
     #endregion
