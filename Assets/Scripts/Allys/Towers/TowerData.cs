@@ -26,6 +26,8 @@ public class TowerData : ScriptableObject
     private string _towerExplanation = default;
     [SerializeField, Tooltip("タワー索敵範囲"), Header("タワーの索敵範囲")]
     private float _searchRange = default;
+    [SerializeField,Tooltip("弾を撃つ時間間隔"),Header("連射スピード")]
+    private float _shootTime = default;
 
 
     #endregion
@@ -48,6 +50,9 @@ public class TowerData : ScriptableObject
     }
     public float SearchRange {
         get => _searchRange;
+    }
+    public float ShootTime {
+        get => _shootTime;
     }
 
     #endregion

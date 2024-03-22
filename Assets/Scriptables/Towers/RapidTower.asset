@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9064a4293d738204e95a6228d237671b, type: 3}
-  m_Name: NormalTower
+  m_Name: RapidTower
   m_EditorClassIdentifier: 
-  _towerObject: {fileID: 8994747014798625619, guid: 1b525aef733d3904da6abeb8c446734e, type: 3}
+  _towerObject: {fileID: 7150384605560626819, guid: 37b989daa5c46944ebc47d28a53fac52, type: 3}
   _towerBullet: {fileID: 5032055293689361908, guid: d968a39efdc68144eb6139fbc5b79f11, type: 3}
-  _towerMoney: 40
-  _towerName: "\u30CE\u30FC\u30DE\u30EB\u30BF\u30EF\u30FC"
-  _towerExplanation: "\u666E\u901A\u306E\u30BF\u30EF\u30FC"
-  _searchRange: 6
-  _shootTime: 1
+  _towerMoney: 80
+  _towerName: "\u30B9\u30D4\u30FC\u30C9\u30BF\u30EF\u30FC"
+  _towerExplanation: "\u9023\u5C04\u901F\u5EA6\u304C\u9AD8\u3044\u30BF\u30EF\u30FC"
+  _searchRange: 4.5
+  _shootTime: 0.5

@@ -32,7 +32,7 @@ public class NormalTower : TowerBase
     void Start() {
         _transform = this.transform;
         //１秒おきに弾を撃つ
-        _shootTime = 1;
+       // _shootTime = 1;
     }
 
 

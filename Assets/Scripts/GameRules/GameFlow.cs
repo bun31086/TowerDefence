@@ -114,10 +114,12 @@ public class GameFlow : MonoBehaviour
         switch (_gameState) {
             case GameState.Start:
                 //チュートリアル画面を表示
+                if (Input.GetKeyDown(KeyCode.Space)) {
+                    //スタートボタンを押すとPreparationへ
+                    _isPreparation = false;
+                    _gameState = GameState.Preparation;
 
-                //スタートボタンを押すとPreparationへ
-                _isPreparation = false;
-                _gameState = GameState.Preparation;
+                }
 
                 break;
             case GameState.Preparation:
@@ -202,7 +204,6 @@ public class GameFlow : MonoBehaviour
                 _gameState = GameState.Preparation;
                 break;
             case GameState.Result:
-                Debug.LogError("リザルト");
                 _gameUI.SetActive(false);
                 _resultObject.SetActive(true);
                 Time.timeScale = 0;

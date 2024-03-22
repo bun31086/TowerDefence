@@ -56,6 +56,8 @@ public class TowerBase : MonoBehaviour
         _bullet = _towerData.TowerBullet;
         //索敵範囲オブジェクトの大きさを変更
         _searchObject.transform.localScale = new Vector2(_towerData.SearchRange * CONST_TWOTIMES, _towerData.SearchRange * CONST_TWOTIMES);
+        //弾を打つ間隔を設定
+        _shootTime = _towerData.ShootTime;
     }
 
 
