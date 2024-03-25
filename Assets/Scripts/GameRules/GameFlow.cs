@@ -50,6 +50,8 @@ public class GameFlow : MonoBehaviour
     private GameObject _gameUI = default;
     [SerializeField, Tooltip("リザルト画面")]
     private GameObject _resultObject = default;
+    [SerializeField, Tooltip("チュートリアル画面")]
+    private GameObject _tutorialObject = default;
 
     /// <summary>
     /// ゲームの状態
@@ -84,16 +86,7 @@ public class GameFlow : MonoBehaviour
      /// </summary>  
      void Start ()
      {
-        /* シーン移動したらスタート
-         * スタート時は準備時間無制限にする
-         * その間にチュートリアルする
-         * スタートボタンを押したらWAVE開始。
-         * WAVEの初めにそのWAVEの敵を一斉に生成する
-         * 生成された敵をリストに入れて、すべてなくなったら準備時間へ（制限時間あり）
-         * 制限時間が終わったらつぎのWAVE
-         * WAVEの敵はスクリプタブルで選べる
-         * えらばれてないWAVEはランダムで生成する
-         */
+        // シーン移動したらスタート
         _gameState = GameState.Start;
         //WAVE数初期化
         _waveCount.Value = 0;
@@ -104,23 +97,25 @@ public class GameFlow : MonoBehaviour
         _preparationWait = new WaitForSeconds(_preparationTime);
         //オフセット設定
         _offset = -1;
-     }
-  
-     /// <summary>  
-     /// 更新処理  
-     /// </summary>  
-     void Update ()
+        //チュートリアル画面を表示
+        _tutorialObject.SetActive(true);
+    }
+
+    /// <summary>  
+    /// 更新処理  
+    /// </summary>  
+    void Update ()
      {
         switch (_gameState) {
             case GameState.Start:
                 //チュートリアル画面を表示
                 if (Input.GetKeyDown(KeyCode.Space)) {
+                    //チュートリアル画面を消す
+                    _tutorialObject.SetActive(false);
                     //スタートボタンを押すとPreparationへ
                     _isPreparation = false;
                     _gameState = GameState.Preparation;
-
                 }
-
                 break;
             case GameState.Preparation:
                 //毎ウェーブ一度のみ実行
@@ -204,8 +199,11 @@ public class GameFlow : MonoBehaviour
                 _gameState = GameState.Preparation;
                 break;
             case GameState.Result:
+                //ゲームUIを非表示
                 _gameUI.SetActive(false);
+                //リザルトUIを表示
                 _resultObject.SetActive(true);
+                //時間を止める
                 Time.timeScale = 0;
                 break;
         }

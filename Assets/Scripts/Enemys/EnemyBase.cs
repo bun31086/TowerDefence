@@ -18,12 +18,6 @@ public class EnemyBase : MonoBehaviour,IDamageable
     private bool _isFirst = true;
     [Tooltip("敵のHP")]
     protected float _hp = default;
-    //[Tooltip("敵の移動スピード")]
-    //protected float _speed = default;
-    //[Tooltip("敵の攻撃力")]
-    //protected int _power = default;
-    //[Tooltip("敵の所持金")]
-    //protected int _money = default;
     [Tooltip("プレイヤーのHPオブジェクト"), Header("プレイヤーのステータスオブジェクト")]
     private GameObject _playerStatus = default;
     [SerializeField,Tooltip("敵のデータ"), Header("敵のスクリプタブルオブジェクト")]
