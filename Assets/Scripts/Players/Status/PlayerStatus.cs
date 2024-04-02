@@ -5,10 +5,9 @@
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
 using UniRx;
 
-public class PlayerStatus : MonoBehaviour,IDamageable,IMoneyAdd
+public class PlayerStatus : MonoBehaviour,IDamageable,IMoneyChange
 {
 
     #region 変数  
@@ -40,7 +39,7 @@ public class PlayerStatus : MonoBehaviour,IDamageable,IMoneyAdd
     /// 金取得処理
     /// </summary>
     /// <param name="damage">金額</param>
-    public void MoneyGet(int money) {
+    public void MoneyChange(int money) {
         _playerMoney.Value += money;
     }
 

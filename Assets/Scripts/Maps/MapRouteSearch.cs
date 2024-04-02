@@ -4,9 +4,7 @@
 // 作成日:  3/13
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
-using System.Collections;
 using System.Collections.Generic;
-using System;
 
 public class MapRouteSearch
 {
@@ -19,12 +17,8 @@ public class MapRouteSearch
     private MapData _mapData = default;
     //探索開始地点
     private int[] _searchedPos = new int[2];
-    //配列でスタートを示す数字
-    private const int CONST_START_NUMBER = 2;
     //道のタイル数
     private int _tileCount = 0;
-    //曲がり角数
-    private int _curveCount = 0;
     //曲がり角の座標格納配列
     private List<int[]> _curvePosition = new List<int[]>();
     //マップ配列のy軸の要素数
@@ -128,8 +122,6 @@ public class MapRouteSearch
                 _tileCount++;
                 //曲がり角か
                 if ((_fourDirection[y,CONST_Y_NUMBER] != _searchedPos[CONST_Y_NUMBER] - _beforePosition[CONST_Y_NUMBER])&& (_fourDirection[y, CONST_X_NUMBER] != _searchedPos[CONST_X_NUMBER] - _beforePosition[CONST_X_NUMBER])) {
-                    //曲がり角数をカウントする
-                    _curveCount++;
                     //曲がり角の座標を格納
                     CurvePosition.Add(new int[] { _searchedPos[CONST_Y_NUMBER], _searchedPos[CONST_X_NUMBER] });
                 }

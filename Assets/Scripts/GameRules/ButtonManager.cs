@@ -5,7 +5,6 @@
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class ButtonManager : MonoBehaviour

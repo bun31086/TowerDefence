@@ -13,7 +13,6 @@ public class CurvePosition : SingletonMonoBehaviour<CurvePosition> {
     [Tooltip("曲がり角格納配列")]
     private Vector3[] _curvePos = default;
 
-
     #endregion
 
     #region プロパティ  

@@ -5,8 +5,6 @@
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
-
 public class BulletBase : MonoBehaviour
 {
 
@@ -22,10 +20,6 @@ public class BulletBase : MonoBehaviour
     protected float _bulletSpeed = default;
     [Tooltip("弾の攻撃力")]
     protected int _bulletPower = default;
-
-    #endregion
-
-    #region プロパティ  
 
     #endregion
 

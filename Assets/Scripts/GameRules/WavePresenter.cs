@@ -5,7 +5,6 @@
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
 using UniRx;
 
 public class WavePresenter : MonoBehaviour
@@ -33,8 +32,10 @@ public class WavePresenter : MonoBehaviour
      /// </summary>  
      void Awake()
      {
+        //ウェーブ数が変化したとき
         _gameFlow.WaveCount
             .Subscribe(waveCount => {
+                //画面のウェーブ数表示も変える
                 _waveView1.CountChange(waveCount);
                 _waveView2.CountChange(waveCount);
             }).AddTo(this);

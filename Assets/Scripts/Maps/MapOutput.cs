@@ -5,7 +5,6 @@
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 
@@ -33,10 +32,6 @@ public class MapOutput : MonoBehaviour
     private MapRouteSearch _mapRouteSearch = default;
     [Tooltip("曲がり角の数")]
     private int _curveCount = default;
-
-    #endregion
-
-    #region プロパティ  
 
     #endregion
 

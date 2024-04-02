@@ -23,6 +23,9 @@ public class MapData : SingletonMonoBehaviour<MapData>
 {
     #region 変数  
 
+    /// <summary>
+    /// タイルの種類Enunm
+    /// </summary>
     private MapDataEnum[,] _mapDataArray = default;
 
     #endregion

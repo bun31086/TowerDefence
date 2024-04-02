@@ -7,17 +7,7 @@
 
 public class StrongBullet : BulletBase
 {
-  
-    #region 変数  
-  
-    #endregion
-  
-    #region プロパティ  
-  
-    #endregion
-  
     #region メソッド  
-  
   
      /// <summary>  
      /// 更新前処理  
@@ -29,7 +19,6 @@ public class StrongBullet : BulletBase
         //弾の攻撃力を設定
         _bulletPower = 20;
     }
-
 
     #endregion
 }

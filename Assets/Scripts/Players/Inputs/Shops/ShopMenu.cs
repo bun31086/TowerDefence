@@ -5,8 +5,6 @@
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.UI;
 using UniRx;
 public class ShopMenu : MonoBehaviour
@@ -89,13 +87,6 @@ public class ShopMenu : MonoBehaviour
      {
         _shopTransform = _shopMenu.transform;
         _playerStatus = _playerStatusObject.GetComponent<PlayerStatus>();
-     }
-
-    /// <summary>  
-    /// 更新処理  
-    /// </summary>  
-    void Update ()
-     {
      }
 
     /// <summary>
@@ -257,7 +248,7 @@ public class ShopMenu : MonoBehaviour
             //配列を変更
             MapData.Instance.MapDataArray[_tileCoordinateCol, _tileCoordinateRow] = MapDataEnum.Tower;
             //タワーの金額分減らす
-            _playerStatusObject.GetComponent<IMoneyAdd>().MoneyGet(-_towerMoney);
+            _playerStatusObject.GetComponent<IMoneyChange>().MoneyChange(-_towerMoney);
             //メニューを閉じる
             ShopClose();
             DataTell(_tileCoordinateCol, _tileCoordinateRow, _towerPos);

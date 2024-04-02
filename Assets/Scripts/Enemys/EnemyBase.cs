@@ -5,7 +5,6 @@
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
 
 public class EnemyBase : MonoBehaviour,IDamageable
 {
@@ -26,26 +25,8 @@ public class EnemyBase : MonoBehaviour,IDamageable
     private SpriteRenderer _enemySprite = default;
 
     #endregion
-  
-    #region プロパティ  
-  
-    #endregion
-  
+    
     #region メソッド  
-  
-     /// <summary>  
-     /// 初期化処理  
-     /// </summary>  
-     void Awake()
-     {
-     }
-  
-     /// <summary>  
-     /// 更新前処理  
-     /// </summary>  
-     void Start ()
-     {
-     }
   
      /// <summary>  
      /// 更新処理  
@@ -119,7 +100,7 @@ public class EnemyBase : MonoBehaviour,IDamageable
         //もしHPが０より下になったら
         if (_hp <= 0) {
             //金額を増やす
-            _playerStatus.GetComponent<IMoneyAdd>().MoneyGet(_enemyData.Money); 
+            _playerStatus.GetComponent<IMoneyChange>().MoneyChange(_enemyData.Money); 
             //消す
             this.gameObject.SetActive(false);
         }

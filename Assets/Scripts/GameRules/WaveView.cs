@@ -5,7 +5,6 @@
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
 public class WaveView : MonoBehaviour
@@ -15,11 +14,6 @@ public class WaveView : MonoBehaviour
 
     [SerializeField, Tooltip("テキストコンポーネント"), Header("テキストコンポーネント")]
     private Text _waveText = default;
-
-    #endregion
-
-    #region プロパティ  
-
 
     #endregion
 

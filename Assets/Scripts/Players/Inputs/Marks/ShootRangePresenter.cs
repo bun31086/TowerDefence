@@ -20,11 +20,7 @@ public class ShootRangePresenter : MonoBehaviour
     private ShopMenu _shopMenu = default;
 
     #endregion
-  
-    #region プロパティ  
-  
-    #endregion
-  
+    
     #region メソッド  
   
      /// <summary>  

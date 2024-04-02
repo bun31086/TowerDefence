@@ -6,5 +6,6 @@
 // ---------------------------------------------------------  
 public interface IDamageable
 {
+    //ダメージを受けるメソッド
     public void DamageHit(int damage);
 }

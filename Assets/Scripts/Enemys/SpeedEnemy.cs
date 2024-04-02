@@ -7,24 +7,9 @@
 
 public class SpeedEnemy : EnemyBase
 {
-  
-    #region 変数  
-  
-    #endregion
-  
-    #region プロパティ  
-  
-    #endregion
-  
+    
     #region メソッド  
-  
-     /// <summary>  
-     /// 初期化処理  
-     /// </summary>  
-     void Awake()
-     {
-     }
-  
+    
      /// <summary>  
      /// 更新前処理  
      /// </summary>  
@@ -39,13 +24,6 @@ public class SpeedEnemy : EnemyBase
         ////敵の所持金を設定
         //_money = 20;
     }
-
-    /// <summary>  
-    /// 更新処理  
-    /// </summary>  
-    //void Update ()
-    //{
-    //}
 
     #endregion
 }

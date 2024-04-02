@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93bb97cdf318fd84497935167d75623b, type: 3}
   m_Name: ToughEnemy
   m_EditorClassIdentifier: 
-  _hp: 100
+  _hp: 150
   _speed: 1
   _power: 2
   _money: 30

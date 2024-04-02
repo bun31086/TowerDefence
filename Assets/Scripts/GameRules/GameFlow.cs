@@ -23,19 +23,21 @@ public class GameFlow : MonoBehaviour
     [SerializeField, Tooltip("敵を生成時に親にするゲームオブジェクト"), Header("敵をまとめるフォルダー")]
     private GameObject _enemyFolder = default;
     [Tooltip("敵を生成する座標")]
-    private Vector2 _enemyPos = default;
+    private Vector2 _enemyPos = new Vector2(100, 100);
     [Tooltip("1Waveの中で生成された敵リスト")]
     private List<GameObject> _nowWaveEnemy =default;
     [Tooltip("敵生成インターバル")]
     private int _createInterval = 1;
     [Tooltip("準備時間")]
-    private int _preparationTime = 10;
+    private int _preparationTime = default;
     [Tooltip("配列を0スタートするために使用")]
     private int _offset = default;
     [Tooltip("敵生成待ち時間")]
     private WaitForSeconds _spawnWait = default;
     [Tooltip("準備待ち時間")]
     private WaitForSeconds _preparationWait = default;
+    [Tooltip("待ち時間10秒")]
+    private const int CONST_TEN_SECONDS = 10;
     [Tooltip("コルーチンを一度のみ再生")]
     private bool _isCoroutine = false;
     [Tooltip("WAVEの敵をすべて生成したらTrue")]
@@ -90,8 +92,6 @@ public class GameFlow : MonoBehaviour
         _gameState = GameState.Start;
         //WAVE数初期化
         _waveCount.Value = 0;
-        //生成場所を設定
-        _enemyPos = new Vector2(100, 100);
         //インターバルを設定
         _spawnWait = new WaitForSeconds(_createInterval);
         _preparationWait = new WaitForSeconds(_preparationTime);
@@ -124,6 +124,12 @@ public class GameFlow : MonoBehaviour
                     _isCoroutine = true;
                     //コルーチン開始
                     StartCoroutine(nameof(PreparationTime));
+                    //もしStartから来たら
+                    if (_preparationTime == default) {
+                        //待ち時間を戻す
+                        _preparationTime = CONST_TEN_SECONDS;
+                        _preparationWait = new WaitForSeconds(_preparationTime);
+                    }
                     //WAVE数を１追加
                     _waveCount.Value++;
                     //リスト初期化

@@ -18,7 +18,11 @@ public class CreatedPool : SingletonMonoBehaviour<CreatedPool> {
 
     #endregion
 
-    #region プロパティ  
+    #region プロパティ 
+    
+    /// <summary>
+    /// 生成した弾プールリスト
+    /// </summary>
     public List<string> PoolList {
         get => _poolList;
         set => _poolList = value;

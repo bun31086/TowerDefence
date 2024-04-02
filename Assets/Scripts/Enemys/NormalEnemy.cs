@@ -7,23 +7,8 @@
 
 public class NormalEnemy : EnemyBase {
   
-    #region 変数  
-  
-    #endregion
-  
-    #region プロパティ  
-  
-    #endregion
-  
     #region メソッド  
-  
-     /// <summary>  
-     /// 初期化処理  
-     /// </summary>  
-     void Awake()
-     {
-     }
-  
+    
      /// <summary>  
      /// 更新前処理  
      /// </summary>  
@@ -38,14 +23,6 @@ public class NormalEnemy : EnemyBase {
         ////敵の所持金を設定
         //_money = 10;
     }
-
-    /// <summary>  
-    /// 更新処理  
-    /// </summary>  
-    //void Update() {
-    //    //移動
-
-    //}
 
     #endregion
 }

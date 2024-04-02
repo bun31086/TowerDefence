@@ -5,8 +5,6 @@
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 
 public class TowerBase : MonoBehaviour 
 {
@@ -39,10 +37,8 @@ public class TowerBase : MonoBehaviour
     private GameObject _searchObject = default;  
     [Tooltip("半径を直径にするために使用")]
     private const int CONST_TWOTIMES = 2;
-
-    #endregion
-
-    #region プロパティ  
+    [Tooltip("索敵時に使う敵との最大距離")]
+    private const int CONST_MAX_DISTANCE = 100;
 
     #endregion
 
@@ -74,14 +70,14 @@ public class TowerBase : MonoBehaviour
         //ターゲットがいなかったら
         if (_nearestEnemy == null) {
             //時間を初期化
-            _nowTime = 0.0f;
+            _nowTime = 0;
             //処理を中断
             return;
         }
         //弾を撃てる時間になったら
         if (_nowTime >= _shootTime) {
             //時間を初期化
-            _nowTime = 0.0f;
+            _nowTime = 0;
             //弾を生成
             CreateBullet(_transform.position, _transform.rotation);
         }
@@ -101,7 +97,7 @@ public class TowerBase : MonoBehaviour
             return;
         }
         //距離を初期化
-        _distance = 100;
+        _distance = CONST_MAX_DISTANCE;
         //一番近い敵を探す
         foreach (GameObject enemy in enemys) {
             //タワーと敵の距離を求める

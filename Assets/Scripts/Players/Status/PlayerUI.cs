@@ -5,7 +5,6 @@
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
@@ -24,23 +23,7 @@ public class PlayerUI : MonoBehaviour
 
     #endregion
 
-    #region メソッド  
-
-    /// <summary>  
-    /// 初期化処理  
-    /// </summary>  
-    void Awake()
-     {
-     }
-  
-     /// <summary>  
-     /// 更新前処理  
-     /// </summary>  
-     void Start ()
-     {
-  
-     }
-  
+    #region メソッド    
 
     /// <summary>
     /// 金額表示を変更

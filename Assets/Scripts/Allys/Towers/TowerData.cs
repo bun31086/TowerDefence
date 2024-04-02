@@ -4,8 +4,6 @@
 // 作成日:  3/19
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "MyScriptable/CreateTowerData")]
