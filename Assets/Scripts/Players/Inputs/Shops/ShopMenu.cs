@@ -224,7 +224,6 @@ public class ShopMenu : MonoBehaviour
                 _towerExplanation = towerScriptable.TowerExplanation;
                 //そのタワーの射撃範囲を取得
                 _towerRange.Value = towerScriptable.SearchRange;
-                print(_towerRange.Value);
                 //Foreachを終了する
                 break;
             }
