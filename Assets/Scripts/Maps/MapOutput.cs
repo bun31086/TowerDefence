@@ -40,7 +40,7 @@ public class MapOutput : MonoBehaviour
     /// <summary>  
     /// 更新前処理  
     /// </summary>  
-    void Awake ()
+    private void Awake ()
      {
         Output();
      }
@@ -86,17 +86,6 @@ public class MapOutput : MonoBehaviour
                 index++;
             }
         }
-
-        // 配列を出力するテスト
-        print("Field------------------------------------------");
-        for (int y = 0; y < _vartical; y++) {
-            string outPutString = "";
-            for (int x = 0; x < _horizontal; x++) {
-                outPutString += (int)mapData.MapDataArray[y, x];
-            }
-            print(outPutString);
-        }
-        print("Field------------------------------------------");
 
         //ルートを探索する(配列内)
         _mapRouteSearch = new MapRouteSearch(mapData.MapDataArray.GetLength(0), mapData.MapDataArray.GetLength(1), mapData);

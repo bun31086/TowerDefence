@@ -6,8 +6,7 @@
 // ---------------------------------------------------------  
 using UnityEngine;
 
-public class TowerBase : MonoBehaviour 
-{
+public class TowerBase : MonoBehaviour {
 
     #region 変数  
 
@@ -33,8 +32,8 @@ public class TowerBase : MonoBehaviour
     private TowerData _towerData = default;
     [Tooltip("生成時に使うフラグ")]
     private bool _isCreated = true;
-    [SerializeField,Tooltip("索敵範囲オブジェクト")]
-    private GameObject _searchObject = default;  
+    [SerializeField, Tooltip("索敵範囲オブジェクト")]
+    private GameObject _searchObject = default;
     [Tooltip("半径を直径にするために使用")]
     private const int CONST_TWOTIMES = 2;
     [Tooltip("索敵時に使う敵との最大距離")]
@@ -101,10 +100,9 @@ public class TowerBase : MonoBehaviour
         //一番近い敵を探す
         foreach (GameObject enemy in enemys) {
             //タワーと敵の距離を求める
-            float distance = Vector2.Distance(transform.position, enemy.transform.position); 
+            float distance = Vector2.Distance(transform.position, enemy.transform.position);
             //現段階で一番近かったら
-            if (distance < _distance)
-            {
+            if (distance < _distance) {
                 //最短距離を更新
                 _distance = distance;
                 //探索中の敵を格納
@@ -119,7 +117,7 @@ public class TowerBase : MonoBehaviour
         //敵のポジションを取得
         Vector3 targetPos = _nearestEnemy.transform.position;
         //タワーのポジションを取得
-        Vector3 towerPos = this.transform.position;    
+        Vector3 towerPos = this.transform.position;
         //タワーと敵の距離を取得
         float dis = Vector3.Distance(targetPos, towerPos);
         //敵が索敵距離内にいなかったら
@@ -131,7 +129,7 @@ public class TowerBase : MonoBehaviour
         }
         //一番近い敵を向く
         Vector3 diff = (_nearestEnemy.transform.position - this.transform.position).normalized;
-        Quaternion quaternionTest = new Quaternion(0,0, Quaternion.FromToRotation(Vector3.up, diff).z, Quaternion.FromToRotation(Vector3.up, diff).w);
+        Quaternion quaternionTest = new Quaternion(0, 0, Quaternion.FromToRotation(Vector3.up, diff).z, Quaternion.FromToRotation(Vector3.up, diff).w);
         this.transform.rotation = Quaternion.RotateTowards(transform.rotation, quaternionTest, CONST_ROTATE_SPEED);
     }
 
@@ -146,7 +144,7 @@ public class TowerBase : MonoBehaviour
         //現在の弾の名前を取得
         string objectName = _bullet.gameObject.name + "Pool";
         //True→同じ名前のプールがすでに生成されている
-        bool isCreated = false;        
+        bool isCreated = false;
         //生成されているプール分繰り返す
         foreach (string poolName in CreatedPool.Instance.PoolList) {
             //もしまだその弾のプールが生成されているなら

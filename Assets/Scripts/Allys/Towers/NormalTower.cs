@@ -12,7 +12,7 @@ public class NormalTower : TowerBase
     /// <summary>  
     /// 更新前処理  
     /// </summary>  
-    void Start() {
+    private void Start() {
         _transform = this.transform;
         //１秒おきに弾を撃つ
        // _shootTime = 1;

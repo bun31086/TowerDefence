@@ -12,7 +12,7 @@ public class StrongBullet : BulletBase
      /// <summary>  
      /// 更新前処理  
      /// </summary>  
-     void Start ()
+     private void Start ()
      {
         //弾のスピードを設定
         _bulletSpeed = 8;

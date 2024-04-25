@@ -7,15 +7,6 @@
 
 public class NormalBullet : BulletBase
 {
-
-    #region 変数  
-
-    #endregion
-
-    #region プロパティ  
-
-    #endregion
-
     #region メソッド  
 
     /// <summary>
