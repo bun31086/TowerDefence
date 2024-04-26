@@ -15,4 +15,4 @@ MonoBehaviour:
   _hp: 150
   _speed: 1
   _power: 2
-  _money: 30
+  _money: 10
