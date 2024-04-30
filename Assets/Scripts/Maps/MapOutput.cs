@@ -100,7 +100,12 @@ public class MapOutput : MonoBehaviour
         // 生成した配列にタイルマップの座標をワールド座標で格納
         for (int index = 0; index < _curveCount; index++) 
         {
-            CurvePosition.Instance.CurvePos[index] = _tileMap.GetCellCenterWorld(new Vector3Int(_mapRouteSearch.CurvePosition[index][1] + _horizontalMin, -_mapRouteSearch.CurvePosition[index][0] + _varticalMax));
+            CurvePosition.Instance.CurvePos[index] = 
+                _tileMap.GetCellCenterWorld
+                (
+                    new Vector3Int(_mapRouteSearch.CurvePosition[index][1] + _horizontalMin,
+                                   -_mapRouteSearch.CurvePosition[index][0] + _varticalMax)
+                );
         }
     }
     #endregion

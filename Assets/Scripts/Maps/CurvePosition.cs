@@ -16,7 +16,8 @@ public class CurvePosition : SingletonMonoBehaviour<CurvePosition>
     private Vector3[] _curvePos = default;
 
     #endregion
-    #region プロパティ  
+    #region プロパティ 
+    
     /// <summary>
     /// 曲がり角格納配列
     /// </summary>

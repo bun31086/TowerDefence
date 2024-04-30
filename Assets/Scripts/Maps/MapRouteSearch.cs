@@ -131,7 +131,8 @@ public class MapRouteSearch
                 // タイル数をカウントする
                 _tileCount++;
                 // 曲がり角か
-                if ((_fourDirection[y, INDEX_Y] != _searchedPos[INDEX_Y] - _beforePosition[INDEX_Y]) && (_fourDirection[y, INDEX_X] != _searchedPos[INDEX_X] - _beforePosition[INDEX_X])) 
+                if ((_fourDirection[y, INDEX_Y] != _searchedPos[INDEX_Y] - _beforePosition[INDEX_Y]) && 
+                    (_fourDirection[y, INDEX_X] != _searchedPos[INDEX_X] - _beforePosition[INDEX_X])) 
                 {
                     // 曲がり角の座標を格納
                     CurvePosition.Add(new int[] { _searchedPos[INDEX_Y], _searchedPos[INDEX_X] });
