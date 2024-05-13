@@ -8,16 +8,18 @@ using System.Collections.Generic;
 /// <summary>
 /// 敵の経路探索
 /// </summary>
-public class MapRouteSearch 
-{
+public class MapRouteSearch {
+
     #region 変数  
 
-    // 一個前に探索していた配列座標
-    private int[] _beforePosition = new int[2];
     // マップ配列スクリプト
     private MapData _mapData = default;
-    // 探索開始地点
-    private int[] _searchedPos = new int[2];
+    // 一個前に探索していた座標
+    private int[] _searchPositionBefore = new int[2];
+    // 現在の座標
+    private int[] _searchPosition = new int[2];
+    // 現在探索している座標
+    private int[] _searchPositionAfter = new int[2];
     // 道のタイル数
     private int _tileCount = 0;
     // 曲がり角の座標格納配列
@@ -30,9 +32,7 @@ public class MapRouteSearch
     private const int INDEX_Y = 0;
     // 配列のX座標の配列番号
     private const int INDEX_X = 1;
-    // 調べている座標
-    private int[] _searchPos = new int[2];
-    // 進む方向
+    // 探索4方向
     private int[,] _fourDirection =
     {
             { -1,  0},       // 上
@@ -47,8 +47,7 @@ public class MapRouteSearch
     /// <param name="yLength">マップ配列のy軸の要素数</param>
     /// <param name="xLength">マップ配列のx軸の要素数</param>
     /// <param name="mapData">マップ配列スクリプト</param>
-    public MapRouteSearch(int yLength, int xLength, MapData mapData) 
-    {
+    public MapRouteSearch(int yLength, int xLength, MapData mapData) {
         _yLength = yLength;
         _xLength = xLength;
         _mapData = mapData;
@@ -58,11 +57,11 @@ public class MapRouteSearch
 
     #endregion
     #region プロパティ
+
     /// <summary>
     /// 曲がり角の座標格納配列
     /// </summary>
-    public List<int[]> CurvePosition 
-    {
+    public List<int[]> CurvePosition {
         get => _curvePosition;
         set => _curvePosition = value;
     }
@@ -73,25 +72,25 @@ public class MapRouteSearch
     /// <summary>
     /// 探索開始位置を探す
     /// </summary>
-    public void StartSearch() 
-    {
+    private void StartSearch() {
         int indexX = 0;
         int indexY = 0;
         // 探索開始位置を探す
-        foreach (MapDataEnum startPos in _mapData.MapDataArray) 
-        {
-            // 探索開始位置だったら
-            if (startPos == MapDataEnum.Start) 
-            {
+        foreach (MapType startPos in _mapData.MapDataArray) {
+            // 探索している座標がスタートのとき
+            if (startPos == MapType.Start) {
                 // 探索位置の座標を格納
-                _searchedPos[INDEX_Y] = indexY;
-                _searchedPos[INDEX_X] = indexX;
+                _searchPosition[INDEX_Y] = indexY;
+                _searchPosition[INDEX_X] = indexX;
                 break;
             }
+            // X座標をインクリメント
             indexX++;
-            if (indexX >= _xLength) 
-            {
+            // X座標が配列のXの要素数より大きいとき
+            if (indexX >= _xLength) {
+                // Y座標をインクリメント
                 indexY++;
+                // X座標を初期化
                 indexX = 0;
             }
         }
@@ -103,59 +102,53 @@ public class MapRouteSearch
     /// <summary>
     /// ルート探索をする
     /// </summary>
-    private void SearchRoute(int tileCount) 
-    {
+    private void SearchRoute(int tileCount) {
+        //タイルの枚数を格納
         _tileCount = tileCount;
         // 今いるマスの周り４方向を調べる(上右下左の順で探索)
-        for (int y = 0; y < 4; y++) 
-        {
+        for (int y = 0; y < 4; y++) {
             // 調べている地点を格納
-            _searchPos[INDEX_Y] = _searchedPos[INDEX_Y] + _fourDirection[y, INDEX_Y];
-            _searchPos[INDEX_X] = _searchedPos[INDEX_X] + _fourDirection[y, INDEX_X];
+            _searchPositionAfter[INDEX_Y] = _searchPosition[INDEX_Y] + _fourDirection[y, INDEX_Y];
+            _searchPositionAfter[INDEX_X] = _searchPosition[INDEX_X] + _fourDirection[y, INDEX_X];
 
-            // 元いた地点を調べているなら
-            if (_searchPos[INDEX_Y] == _beforePosition[INDEX_Y] && _searchPos[INDEX_X] == _beforePosition[INDEX_X]) 
-            {
+            // 元いた地点を調べているとき
+            if (_searchPositionAfter[INDEX_Y] == _searchPositionBefore[INDEX_Y] && _searchPositionAfter[INDEX_X] == _searchPositionBefore[INDEX_X]) {
                 // 次の方向を調べる
                 continue;
             }
-            // 配列範囲外を調べているなら
-            if (_searchPos[INDEX_Y] < 0 || _searchPos[INDEX_Y] > _yLength || _searchPos[INDEX_X] < 0 || _searchPos[INDEX_X] > _xLength) 
-            {
+            // 配列範囲外を調べているとき
+            if (_searchPositionAfter[INDEX_Y] < 0 || _searchPositionAfter[INDEX_Y] > _yLength || _searchPositionAfter[INDEX_X] < 0 || _searchPositionAfter[INDEX_X] > _xLength) {
                 // 次の方向を調べる
                 continue;
             }
-            // 道を調べているなら
-            if (_mapData.MapDataArray[_searchPos[INDEX_Y], _searchPos[INDEX_X]] == MapDataEnum.Road) 
-            {
+            // 道を調べているとき
+            if (_mapData.MapDataArray[_searchPositionAfter[INDEX_Y], _searchPositionAfter[INDEX_X]] == MapType.Road) {
                 // タイル数をカウントする
                 _tileCount++;
-                // 曲がり角か
-                if ((_fourDirection[y, INDEX_Y] != _searchedPos[INDEX_Y] - _beforePosition[INDEX_Y]) && 
-                    (_fourDirection[y, INDEX_X] != _searchedPos[INDEX_X] - _beforePosition[INDEX_X])) 
-                {
+                // 曲がり角のとき
+                if ((_fourDirection[y, INDEX_Y] != _searchPosition[INDEX_Y] - _searchPositionBefore[INDEX_Y]) &&
+                    (_fourDirection[y, INDEX_X] != _searchPosition[INDEX_X] - _searchPositionBefore[INDEX_X])) {
                     // 曲がり角の座標を格納
-                    CurvePosition.Add(new int[] { _searchedPos[INDEX_Y], _searchedPos[INDEX_X] });
+                    CurvePosition.Add(new int[] { _searchPosition[INDEX_Y], _searchPosition[INDEX_X] });
                 }
-
                 // 元居た地点を格納
-                _beforePosition[INDEX_Y] = _searchedPos[INDEX_Y];
-                _beforePosition[INDEX_X] = _searchedPos[INDEX_X];
+                _searchPositionBefore[INDEX_Y] = _searchPosition[INDEX_Y];
+                _searchPositionBefore[INDEX_X] = _searchPosition[INDEX_X];
                 // 探索するタイルの座標を変更する
-                _searchedPos[INDEX_Y] = _searchPos[INDEX_Y];
-                _searchedPos[INDEX_X] = _searchPos[INDEX_X];
+                _searchPosition[INDEX_Y] = _searchPositionAfter[INDEX_Y];
+                _searchPosition[INDEX_X] = _searchPositionAfter[INDEX_X];
                 // 次のタイルの周りを探索
                 SearchRoute(_tileCount);
                 return;
             }
-            // もしゴールなら
-            else if (_mapData.MapDataArray[_searchPos[INDEX_Y], _searchPos[INDEX_X]] == MapDataEnum.Goal) 
-            {
+            // 探索している座標がゴールのとき
+            else if (_mapData.MapDataArray[_searchPositionAfter[INDEX_Y], _searchPositionAfter[INDEX_X]] == MapType.Goal) {
                 // ゴールのポジションを格納
-                CurvePosition.Add(new int[] { _searchPos[INDEX_Y], _searchPos[INDEX_X] });
+                CurvePosition.Add(new int[] { _searchPositionAfter[INDEX_Y], _searchPositionAfter[INDEX_X] });
                 return;
             }
         }
     }
+
     #endregion
 }

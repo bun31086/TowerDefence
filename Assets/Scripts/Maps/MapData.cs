@@ -7,23 +7,19 @@
 /// <summary>
 /// Map格納配列
 /// </summary>
-public class MapData : SingletonMonoBehaviour<MapData>
-{
+public class MapData : SingletonMonoBehaviour<MapData> {
     #region 変数  
 
-    /// <summary>
-    /// タイルの種類Enum
-    /// </summary>
-    private MapDataEnum[,] _mapDataArray = default;
+    // タイルの種類のEnum
+    private MapType[,] _mapDataArray = default;
 
     #endregion
     #region プロパティ
 
     /// <summary>
-    /// タイルの種類Enum
+    /// タイルの種類のEnum
     /// </summary>
-    public MapDataEnum[,] MapDataArray 
-    {
+    public MapType[,] MapDataArray {
         get => _mapDataArray;
         set => _mapDataArray = value;
     }

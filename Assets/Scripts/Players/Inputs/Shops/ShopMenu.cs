@@ -31,7 +31,7 @@ public class ShopMenu : MonoBehaviour
     [Tooltip("タワーを設置する座標")]
     private Vector2 _towerPos = default;
     [Tooltip("タイルの種類を番号で示したもの")]
-    private MapDataEnum _tileData = default;
+    private MapType _tileData = default;
     [Tooltip("カーソルと重なるタイルの配列座標(列)")]
     private int _tileCoordinateCol = default;
     [Tooltip("カーソルと重なるタイルの配列座標(行)")]
@@ -149,13 +149,13 @@ public class ShopMenu : MonoBehaviour
     private void TextChange() {
         //タイルの種類に合わせた説明画面を表示
         switch (_tileData) {
-            case MapDataEnum.Platform:     //設置可能場所
+            case MapType.Platform:     //設置可能場所
                 _tileName.text = "プラットフォーム";
                 _tileExplanation.text = "タワー設置可能エリア";
                 //タワー選択ボタンを表示
                 _towerObjects.SetActive(true);
                 break;
-            case MapDataEnum.Road:        //道
+            case MapType.Road:        //道
                 _tileName.text = "道";
                 _tileExplanation.text = "敵が通る経路";
                 //タワー選択ボタンを未表示
@@ -163,21 +163,21 @@ public class ShopMenu : MonoBehaviour
                 //タワー購入ボタンなどを未表示
                 _buyObjects.SetActive(false);
                 break;
-            case MapDataEnum.Start:    //スタート
+            case MapType.Start:    //スタート
                 //タワー購入ボタンなどを未表示
                 _buyObjects.SetActive(false);
                 //タワー選択ボタンを未表示
                 _towerObjects.SetActive(false);
 
                 break;
-            case MapDataEnum.Goal:    //ゴール
+            case MapType.Goal:    //ゴール
                 //タワー購入ボタンなどを未表示
                 _buyObjects.SetActive(false);
                 //タワー選択ボタンを未表示
                 _towerObjects.SetActive(false);
 
                 break;
-            case MapDataEnum.Tower:      //タワー
+            case MapType.Tower:      //タワー
                 _tileName.text = "タワー";
                 _tileExplanation.text = "味方のタワー";
                 //タワー選択ボタンを未表示
@@ -185,7 +185,7 @@ public class ShopMenu : MonoBehaviour
                 //タワー購入ボタンなどを未表示
                 _buyObjects.SetActive(false);
                 break;
-            case MapDataEnum.Wood:      //木
+            case MapType.Wood:      //木
                 _tileName.text = "木";
                 _tileExplanation.text = "木";
                 //タワー選択ボタンを未表示
@@ -193,7 +193,7 @@ public class ShopMenu : MonoBehaviour
                 //タワー購入ボタンなどを未表示
                 _buyObjects.SetActive(false);
                 break;
-            case MapDataEnum.Stone:     //石
+            case MapType.Stone:     //石
                 _tileName.text = "石";
                 _tileExplanation.text = "石";
                 //タワー選択ボタンを未表示
@@ -245,7 +245,7 @@ public class ShopMenu : MonoBehaviour
             //タワーを生成
             Instantiate(_selectedTower, _towerPos, Quaternion.identity, _towerFolder.transform);
             //配列を変更
-            MapData.Instance.MapDataArray[_tileCoordinateCol, _tileCoordinateRow] = MapDataEnum.Tower;
+            MapData.Instance.MapDataArray[_tileCoordinateCol, _tileCoordinateRow] = MapType.Tower;
             //タワーの金額分減らす
             _playerStatusObject.GetComponent<IMoneyChange>().MoneyChange(-_towerMoney);
             //メニューを閉じる

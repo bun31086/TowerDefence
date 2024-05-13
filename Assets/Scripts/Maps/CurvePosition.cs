@@ -8,21 +8,19 @@ using UnityEngine;
 /// <summary>
 /// 曲がり角を格納
 /// </summary>
-public class CurvePosition : SingletonMonoBehaviour<CurvePosition> 
-{
+public class CurvePosition : SingletonMonoBehaviour<CurvePosition> {
     #region 変数  
 
-    [Tooltip("曲がり角格納配列")]
+    // 曲がり角の座標を格納する配列
     private Vector3[] _curvePos = default;
 
     #endregion
     #region プロパティ 
-    
+
     /// <summary>
-    /// 曲がり角格納配列
+    /// 曲がり角の座標を格納する配列
     /// </summary>
-    public Vector3[] CurvePos 
-    {
+    public Vector3[] CurvePos {
         get => _curvePos;
         set => _curvePos = value;
     }

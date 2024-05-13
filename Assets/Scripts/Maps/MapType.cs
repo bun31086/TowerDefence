@@ -1,5 +1,5 @@
 // ---------------------------------------------------------  
-// MapDataEnum.cs  
+// MapType.cs  
 // マップデータの種類
 // 作成日:  4/26
 // 作成者:  竹村綾人
@@ -7,8 +7,7 @@
 /// <summary>
 /// マップデータの種類
 /// </summary>
-public enum MapDataEnum
-{
+public enum MapType {
     Platform,       // プラットフォーム（タワー設置可能場所）
     Road,           // 敵の進行通路
     Start,          // 敵のスポーン位置
