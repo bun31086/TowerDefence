@@ -5,6 +5,8 @@
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
+using UniRx;
+using System.Collections;
 
 public class EnemyBase : MonoBehaviour,IDamageable
 {
@@ -16,22 +18,43 @@ public class EnemyBase : MonoBehaviour,IDamageable
     [Tooltip("スタート位置に移動させる際に使用するフラグ")]
     private bool _isFirst = true;
     [Tooltip("敵のHP")]
-    protected float _hp = default;
+    protected ReactiveProperty<float> _hp = new ReactiveProperty<float>();
     [Tooltip("プレイヤーのHPオブジェクト"), Header("プレイヤーのステータスオブジェクト")]
     private GameObject _playerStatus = default;
     [SerializeField,Tooltip("敵のデータ"), Header("敵のスクリプタブルオブジェクト")]
     private EnemyData _enemyData = default;
     [SerializeField,Tooltip("敵のスプライト"),Header("敵のスプライトレンダラー")]
     private SpriteRenderer _enemySprite = default;
+    [Tooltip("ダメージ時待ち時間")]
+    private WaitForSeconds _waitForSecond = new WaitForSeconds(0.05f);
 
     #endregion
-    
+    #region プロパティ
+    /// <summary>
+    /// 敵のHP
+    /// </summary>
+    public IReadOnlyReactiveProperty<float> EnemyHP => _hp;
+    #endregion
     #region メソッド  
-  
-     /// <summary>  
-     /// 更新処理  
-     /// </summary>  
-     protected void Update ()
+
+    /// <summary>
+    /// 初期化処理
+    /// </summary>
+    private void Awake() {
+
+        //プレイヤーのステータスを取得
+        _playerStatus = GameObject.Find("PlayerStatus");
+        //HPを取得
+        _hp.Value = _enemyData.Hp;
+        //1つ目のポジションに移動
+        transform.position = CurvePosition.Instance.CurvePos[0];
+
+    }
+
+    /// <summary>  
+    /// 更新処理  
+    /// </summary>  
+    protected void Update ()
      {
         Move();
      }
@@ -41,14 +64,14 @@ public class EnemyBase : MonoBehaviour,IDamageable
     /// </summary>
     private void Move() {
         //一回のみ実行
-        if (_isFirst) {
-            _playerStatus = GameObject.Find("PlayerStatus");
-            //HPを取得
-            _hp = _enemyData.Hp;
-            //1つ目のポジションに移動
-            transform.position = CurvePosition.Instance.CurvePos[0];
-            _isFirst = false;
-        }
+        //if (_isFirst) {
+        //    _playerStatus = GameObject.Find("PlayerStatus");
+        //    //HPを取得
+        //    _hp.Value = _enemyData.Hp;
+        //    //1つ目のポジションに移動
+        //    transform.position = CurvePosition.Instance.CurvePos[0];
+        //    _isFirst = false;
+        //}
         //もし敵がゴールしていたら
         if (_moveNumber >= CurvePosition.Instance.CurvePos.Length) {
             //ゴール処理を実行する
@@ -96,14 +119,28 @@ public class EnemyBase : MonoBehaviour,IDamageable
     /// <param name="damage">ダメージ量</param>
     public void DamageHit(int damage) {
         //送られてきたダメージ分、HPを減らす
-        _hp -= damage;
+        _hp.Value -= damage;
         //もしHPが０より下になったら
-        if (_hp <= 0) {
+        if (_hp.Value <= 0) {
             //金額を増やす
-            _playerStatus.GetComponent<IMoneyChange>().MoneyChange(_enemyData.Money); 
+            _playerStatus.GetComponent<IMoneyChange>().MoneyChange(_enemyData.Money);
             //消す
             this.gameObject.SetActive(false);
+        } else {
+            //敵を赤くする
+            StartCoroutine(DamageRed());
         }
+    }
+    
+    /// <summary>
+    /// 被ダメージに敵を赤くする処理
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator DamageRed() {
+        _enemySprite.color = Color.red;
+        yield return _waitForSecond;
+        _enemySprite.color = Color.white;
+        yield return null;
     }
 
     #endregion
