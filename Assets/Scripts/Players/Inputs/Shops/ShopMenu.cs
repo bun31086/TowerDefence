@@ -115,9 +115,11 @@ public class ShopMenu : MonoBehaviour {
     /// <summary>  
     /// 更新前処理  
     /// </summary>  
-    void Start() {
+    private void Start() {
         _shopTransform = _shopMenu.transform;
         _playerStatus = _playerStatusObject.GetComponent<PlayerStatus>();
+        _tileData = MapType.Wood;
+
     }
 
     /// <summary>
@@ -285,7 +287,6 @@ public class ShopMenu : MonoBehaviour {
                 break;
             }
         }
-
         // タワーのステータスを表示
         _towerStatesFolder.SetActive(true);
         // バレットのステータスを非表示
