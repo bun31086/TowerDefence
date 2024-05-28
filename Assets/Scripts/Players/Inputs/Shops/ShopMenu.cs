@@ -11,19 +11,19 @@ public class ShopMenu : MonoBehaviour {
 
     #region 変数  
 
-    [SerializeField, Tooltip("ショップメニュー"), Header("ショップメニュー画面")]
+    [SerializeField, Tooltip("タワーの説明等スクリプタブル"), Header("タワースクリプタブルオブジェクト")]
+    private TowerData[] _towerData = default;
+    [SerializeField, Tooltip("ショップメニュー")]
     private GameObject _shopMenu = default;
     [Tooltip("ショップメニューTransform")]
     private Transform _shopTransform = default;
     [Tooltip("メニューの座標")]
     private Vector2 _shopPos = default;
-    [Tooltip("ずらすX座標")]
-    private const float CONST_SHOP_X = 1000;
     [Tooltip("ショップが開かれているか")]
     private BoolReactiveProperty _isShop = new BoolReactiveProperty();
     [Tooltip("ショップのボタンを押されて一回目のみショップを閉じないようにする")]
     private bool _isShopFirst = default;
-    [SerializeField, Tooltip("タワーを生成時に親にするゲームオブジェクト"), Header("タワーをまとめるフォルダー")]
+    [SerializeField, Tooltip("タワーを生成時に親にするゲームオブジェクト")]
     private GameObject _towerFolder = default;
     [Tooltip("選択されているタワー")]
     private GameObject _selectedTower = default;
@@ -55,7 +55,7 @@ public class ShopMenu : MonoBehaviour {
     private GameObject _bulletObjects = default;
     [SerializeField, Tooltip("購入ボタン")]
     private GameObject _buyButton = default;
-    [SerializeField, Tooltip("プレイヤーのHPオブジェクト"), Header("プレイヤーのステータスオブジェクト")]
+    [SerializeField, Tooltip("プレイヤーのHPオブジェクト")]
     private GameObject _playerStatusObject = default;
     [Tooltip("選択しているタワーの金額")]
     private int _towerMoney = default;
@@ -65,22 +65,15 @@ public class ShopMenu : MonoBehaviour {
     private string _towerExplanation = default;
     [Tooltip("選択しているタワーの射撃範囲")]
     private FloatReactiveProperty _towerRange = new FloatReactiveProperty();
-    [SerializeField, Tooltip("タワーの説明等スクリプタブル"), Header("タワースクリプタブルオブジェクト")]
-    private TowerData[] _towerData = default;
     [Tooltip("プレイヤーステータス")]
     private PlayerStatus _playerStatus = default;
-
-    private const string TOWER_NAME = "Tower";
-    private const string BULLET_NAME = "Bullet";
-    private const string NORMAL_BULLET_NAME = "NormalBullet";
-    private const string STRONG_BULLET_NAME = "StrongBullet";
-    [SerializeField, Tooltip("タワーの選択ボタン"), Header("タワーの選択ボタン")]
+    [SerializeField, Tooltip("タワーの選択ボタン")]
     private Image _towerButtonImage = default;
-    [SerializeField, Tooltip("バレットの選択ボタン"), Header("バレットの選択ボタン")]
+    [SerializeField, Tooltip("バレットの選択ボタン")]
     private Image _bulletButtonImage = default;
-    [SerializeField, Tooltip("タワーのステータスフォルダー"), Header("タワーのステータスフォルダー")]
+    [SerializeField, Tooltip("タワーのステータスフォルダー")]
     private GameObject _towerStatesFolder = default;
-    [SerializeField, Tooltip("バレットのステータスフォルダー"), Header("バレットのステータスフォルダー")]
+    [SerializeField, Tooltip("バレットのステータスフォルダー")]
     private GameObject _bulletStatesFolder = default;
     [SerializeField, Tooltip("バレット名テキスト")]
     private Text _bulletNameText = default;
@@ -96,6 +89,17 @@ public class ShopMenu : MonoBehaviour {
     private BulletData _normalBulletData = default;    
     [SerializeField, Tooltip("高威力データ")]
     private BulletData _highPowerBulletData = default;
+
+    #region 定数
+
+    [Tooltip("ずらすX座標")]
+    private const float CONST_SHOP_X = 1000;
+    private const string TOWER_NAME = "Tower";
+    private const string BULLET_NAME = "Bullet";
+    private const string NORMAL_BULLET_NAME = "NormalBullet";
+    private const string STRONG_BULLET_NAME = "StrongBullet";
+
+    #endregion
 
     #endregion
 

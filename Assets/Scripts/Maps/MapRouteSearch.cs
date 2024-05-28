@@ -36,7 +36,6 @@ public class MapRouteSearch {
         // 配列のY座標の配列番号
         INDEX_Y = 1
     }
-    private INDEXS _indexs = default;
     // 探索4方向
     private int[,] _fourDirections =
     {
