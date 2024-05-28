@@ -318,85 +318,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &169267177
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 169267178}
-  - component: {fileID: 169267180}
-  - component: {fileID: 169267179}
-  m_Layer: 5
-  m_Name: Text (Legacy)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &169267178
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 169267177}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 608613619}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &169267179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 169267177}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: 652f7165b7c30ab46af6c4aad90a639b, type: 2}
-    m_FontSize: 30
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 3
-    m_MaxSize: 40
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: Back To Title
---- !u!222 &169267180
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 169267177}
-  m_CullTransparentMesh: 1
 --- !u!1 &187706476
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,7 +330,7 @@ GameObject:
   - component: {fileID: 187706479}
   - component: {fileID: 187706478}
   m_Layer: 5
-  m_Name: TowerAttackValue
+  m_Name: TowerBulletValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -431,8 +352,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -30, y: -65}
-  m_SizeDelta: {x: 119.3661, y: 44.0683}
+  m_AnchoredPosition: {x: 163.6, y: -65}
+  m_SizeDelta: {x: 508.05, y: 44.0683}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &187706478
 MonoBehaviour:
@@ -510,8 +431,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -30, y: -65}
-  m_SizeDelta: {x: 119.3661, y: 44.0683}
+  m_AnchoredPosition: {x: 169.3, y: -65}
+  m_SizeDelta: {x: 523.8, y: 44.0683}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &211822453
 MonoBehaviour:
@@ -1248,6 +1169,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 104a3e17d4ff860478a4371077b27301, type: 2}
   _towerButtonImage: {fileID: 1862883171}
   _bulletButtonImage: {fileID: 282586025}
+  _towerStatesFolder: {fileID: 825480983}
+  _bulletStatesFolder: {fileID: 1334551324}
+  _bulletNameText: {fileID: 187706478}
+  _rateOfFireText: {fileID: 1720688781}
+  _attackRangeText: {fileID: 1656703659}
+  _powerText: {fileID: 211822453}
+  _bulletSpeedText: {fileID: 215809700}
+  _normalBulletData: {fileID: 11400000, guid: f0c2dd1f830dbaf49a3ccfe0f6c3a997, type: 2}
+  _highPowerBulletData: {fileID: 11400000, guid: 4d0a26499cbc4404aaabf16c528adc96, type: 2}
 --- !u!114 &326505332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1993,14 +1923,13 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 169267178}
+  m_Children: []
   m_Father: {fileID: 1369562636}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -341.4}
-  m_SizeDelta: {x: 291.5849, y: 59.6066}
+  m_SizeDelta: {x: 291.5849, y: 89.12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &608613620
 MonoBehaviour:
@@ -2078,8 +2007,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 4049164351013995410, guid: 3316aabd5dd7e2743ad1214e35350560, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2526,7 +2455,7 @@ GameObject:
   - component: {fileID: 758734630}
   - component: {fileID: 758734629}
   m_Layer: 5
-  m_Name: TowerAttack
+  m_Name: TowerBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2606,7 +2535,7 @@ GameObject:
   - component: {fileID: 815090033}
   - component: {fileID: 815090032}
   m_Layer: 5
-  m_Name: Posetext
+  m_Name: PoseText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2652,7 +2581,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 652f7165b7c30ab46af6c4aad90a639b, type: 2}
+    m_Font: {fileID: 0}
     m_FontSize: 157
     m_FontStyle: 0
     m_BestFit: 0
@@ -2895,7 +2824,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &825480984
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4122,7 +4051,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1334551325
 RectTransform:
   m_ObjectHideFlags: 0

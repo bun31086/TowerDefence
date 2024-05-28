@@ -8,22 +8,19 @@ using UnityEngine;
 using UniRx;
 using System.Collections;
 
-public class EnemyBase : MonoBehaviour,IDamageable
-{
+public class EnemyBase : MonoBehaviour, IDamageable,IMaxHPChange {
 
     #region 変数  
 
     [Tooltip("移動時に使う曲がり角の番号")]
     private int _moveNumber = default;
-    [Tooltip("スタート位置に移動させる際に使用するフラグ")]
-    private bool _isFirst = true;
-    [Tooltip("敵のHP")]
+    [SerializeField,Tooltip("敵のHP")]
     protected ReactiveProperty<float> _hp = new ReactiveProperty<float>();
     [Tooltip("プレイヤーのHPオブジェクト"), Header("プレイヤーのステータスオブジェクト")]
     private GameObject _playerStatus = default;
-    [SerializeField,Tooltip("敵のデータ"), Header("敵のスクリプタブルオブジェクト")]
+    [SerializeField, Tooltip("敵のデータ"), Header("敵のスクリプタブルオブジェクト")]
     private EnemyData _enemyData = default;
-    [SerializeField,Tooltip("敵のスプライト"),Header("敵のスプライトレンダラー")]
+    [SerializeField, Tooltip("敵のスプライト"), Header("敵のスプライトレンダラー")]
     private SpriteRenderer _enemySprite = default;
     [Tooltip("ダメージ時待ち時間")]
     private WaitForSeconds _waitForSecond = new WaitForSeconds(0.05f);
@@ -54,24 +51,15 @@ public class EnemyBase : MonoBehaviour,IDamageable
     /// <summary>  
     /// 更新処理  
     /// </summary>  
-    protected void Update ()
-     {
+    protected void Update() {
         Move();
-     }
+    }
 
     /// <summary>
     /// 移動処理
     /// </summary>
     private void Move() {
-        //一回のみ実行
-        //if (_isFirst) {
-        //    _playerStatus = GameObject.Find("PlayerStatus");
-        //    //HPを取得
-        //    _hp.Value = _enemyData.Hp;
-        //    //1つ目のポジションに移動
-        //    transform.position = CurvePosition.Instance.CurvePos[0];
-        //    _isFirst = false;
-        //}
+
         //もし敵がゴールしていたら
         if (_moveNumber >= CurvePosition.Instance.CurvePos.Length) {
             //ゴール処理を実行する
@@ -131,7 +119,15 @@ public class EnemyBase : MonoBehaviour,IDamageable
             StartCoroutine(DamageRed());
         }
     }
-    
+
+    /// <summary>
+    /// 最大HPを変更
+    /// </summary>
+    /// <param name="wave">現在WAVE数</param>
+    public void MaxHPChange(int wave) {
+        _hp.Value *= (1 + (wave * 0.1f));
+    }
+
     /// <summary>
     /// 被ダメージに敵を赤くする処理
     /// </summary>

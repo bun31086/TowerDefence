@@ -77,13 +77,6 @@ public class GameFlow : MonoBehaviour
     #region メソッド  
   
      /// <summary>  
-     /// 初期化処理  
-     /// </summary>  
-     void Awake()
-     {
-     }
-  
-     /// <summary>  
      /// 更新前処理  
      /// </summary>  
      void Start ()
@@ -159,6 +152,10 @@ public class GameFlow : MonoBehaviour
                             //非アクティブ化
                             spawnedEnemy.SetActive(false);
                         }
+                    }
+                    // 生成した敵に対して、最大HPの変更をかける（現在WAVE数によって変動）
+                    foreach (GameObject nowWaveEnemy in _nowWaveEnemy) {
+                        nowWaveEnemy.GetComponent<IMaxHPChange>().MaxHPChange(_waveCount.Value);
                     }
                 }
                 //制限時間すぎたら

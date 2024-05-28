@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8605885806879748780}
   - component: {fileID: 4114597638592478244}
-  - component: {fileID: 1721461334649289332}
+  - component: {fileID: 1260981713613856738}
   m_Layer: 0
   m_Name: StrongBullet
   m_TagString: Untagged
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1721461334649289332
+--- !u!114 &1260981713613856738
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,6 +94,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2292559287094387158}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e4889d09741c064e9f5dc942b697944, type: 3}
+  m_Script: {fileID: 11500000, guid: b752d38861bc28b44832e8dda53bb7d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _bulletData: {fileID: 11400000, guid: 4d0a26499cbc4404aaabf16c528adc96, type: 2}

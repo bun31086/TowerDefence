@@ -23,14 +23,14 @@ public class #SCRIPTNAME# : MonoBehaviour
      /// <summary>  
      /// 初期化処理  
      /// </summary>  
-     void Awake()
+     private void Awake()
      {
      }
   
      /// <summary>  
      /// 更新前処理  
      /// </summary>  
-     void Start ()
+     private void Start ()
      {
   
      }
@@ -38,7 +38,7 @@ public class #SCRIPTNAME# : MonoBehaviour
      /// <summary>  
      /// 更新処理  
      /// </summary>  
-     void Update ()
+     private void Update ()
      {
      }
   

@@ -52,7 +52,7 @@ public class ShopMenu : MonoBehaviour {
     [SerializeField, Tooltip("タワーボタン")]
     private GameObject _towerObjects = default;
     [SerializeField, Tooltip("バレットボタン")]
-    private GameObject _bulletObjects = default;    
+    private GameObject _bulletObjects = default;
     [SerializeField, Tooltip("購入ボタン")]
     private GameObject _buyButton = default;
     [SerializeField, Tooltip("プレイヤーのHPオブジェクト"), Header("プレイヤーのステータスオブジェクト")]
@@ -78,6 +78,24 @@ public class ShopMenu : MonoBehaviour {
     private Image _towerButtonImage = default;
     [SerializeField, Tooltip("バレットの選択ボタン"), Header("バレットの選択ボタン")]
     private Image _bulletButtonImage = default;
+    [SerializeField, Tooltip("タワーのステータスフォルダー"), Header("タワーのステータスフォルダー")]
+    private GameObject _towerStatesFolder = default;
+    [SerializeField, Tooltip("バレットのステータスフォルダー"), Header("バレットのステータスフォルダー")]
+    private GameObject _bulletStatesFolder = default;
+    [SerializeField, Tooltip("バレット名テキスト")]
+    private Text _bulletNameText = default;
+    [SerializeField, Tooltip("連射速度テキスト")]
+    private Text _rateOfFireText = default;
+    [SerializeField, Tooltip("攻撃範囲テキスト")]
+    private Text _attackRangeText = default;
+    [SerializeField, Tooltip("威力テキスト")]
+    private Text _powerText = default;
+    [SerializeField, Tooltip("弾速テキスト")]
+    private Text _bulletSpeedText = default;    
+    [SerializeField, Tooltip("通常弾データ")]
+    private BulletData _normalBulletData = default;    
+    [SerializeField, Tooltip("高威力データ")]
+    private BulletData _highPowerBulletData = default;
 
     #endregion
 
@@ -150,6 +168,12 @@ public class ShopMenu : MonoBehaviour {
             _shopTransform.position = _shopPos;
             // 一回目のみショップを閉じないようにする
             IsShopFirst = false;
+            // タワー購入ボタンなどを表示
+            _buyObjects.SetActive(false);
+            // タワーのステータスを非表示
+            _towerStatesFolder.SetActive(false);
+            // バレットのステータスを非表示
+            _bulletStatesFolder.SetActive(false);
         } else if (!IsShopFirst) {
             // 一回目のみショップを閉じないようにする
             IsShopFirst = true;
@@ -251,12 +275,23 @@ public class ShopMenu : MonoBehaviour {
                 _towerExplanation = towerScriptable.TowerExplanation;
                 // そのタワーの射撃範囲を取得
                 _towerRange.Value = towerScriptable.SearchRange;
+                // そのタワーのバレット名を取得
+                _bulletNameText.text = towerScriptable.TowerBullet.name;
+                // そのタワーの連射速度を取得
+                _rateOfFireText.text = towerScriptable.ShootTime.ToString();
+                // そのタワーの攻撃範囲を取得
+                _attackRangeText.text = towerScriptable.SearchRange.ToString();
                 // Foreachを終了する
                 break;
             }
         }
+
+        // タワーのステータスを表示
+        _towerStatesFolder.SetActive(true);
+        // バレットのステータスを非表示
+        _bulletStatesFolder.SetActive(false);
         // タワー説明、確定ボタンを表示
-        _towerMoneyText.text = _towerMoney + "円";
+        _towerMoneyText.text = _towerMoney + "コイン";
         _towerNameText.text = _towerName;
         _towerExplanationText.text = _towerExplanation;
         // タワー購入ボタンなどを表示
@@ -273,17 +308,33 @@ public class ShopMenu : MonoBehaviour {
         string bulletName = default;
         // バレット説明
         string bulletExplanation = default;
+        // バレット威力
+        int bulletPower = default;
+        // バレット弾速
+        int bulletSpeed = default;
         // 弾の種類によって変える
         switch (bullet.name) {
             case NORMAL_BULLET_NAME:
-                bulletName = "ノーマルバレット";
-                bulletExplanation = "普通の弾";
+                bulletName = _normalBulletData.BulletName;
+                bulletExplanation = _normalBulletData.BulletExplanation;
+                bulletPower = _normalBulletData.BulletPower;
+                bulletSpeed = _normalBulletData.BulletSpeed;
                 break;
             case STRONG_BULLET_NAME:
-                bulletName = "ストロングバレット";
-                bulletExplanation = "普通の弾より威力が高い弾";
+                bulletName = _highPowerBulletData.BulletName;
+                bulletExplanation = _highPowerBulletData.BulletExplanation;
+                bulletPower = _highPowerBulletData.BulletPower;
+                bulletSpeed = _highPowerBulletData.BulletSpeed;
                 break;
         }
+        // そのバレットの威力を取得
+        _powerText.text = bulletPower.ToString();
+        // そのバレットの弾速を取得
+        _bulletSpeedText.text = bulletSpeed.ToString();
+        // タワーのステータスを非表示
+        _towerStatesFolder.SetActive(false);
+        // バレットのステータスを表示
+        _bulletStatesFolder.SetActive(true);
         // そのバレットの名前を取得
         _towerName = bulletName;
         // そのバレットの説明を取得
@@ -331,12 +382,6 @@ public class ShopMenu : MonoBehaviour {
                 _towerObjects.SetActive(true);
                 // 弾のボタンを非表示
                 _bulletObjects.SetActive(false);
-                // タワー説明、確定ボタンを表示
-                _towerMoneyText.text = default;
-                _towerNameText.text = default;
-                _towerExplanationText.text = default;
-                // タワー購入ボタンなどを表示
-                _buyObjects.SetActive(false);
                 break;
             case BULLET_NAME:
                 // タワーボタンの色を明るくする
@@ -347,14 +392,18 @@ public class ShopMenu : MonoBehaviour {
                 _towerObjects.SetActive(false);
                 // 弾のボタンを表示
                 _bulletObjects.SetActive(true);
-                // タワー説明、確定ボタンを表示
-                _towerMoneyText.text = default;
-                _towerNameText.text = default;
-                _towerExplanationText.text = default;
-                // タワー購入ボタンなどを表示
-                _buyObjects.SetActive(false);
                 break;
         }
+        // タワー説明、確定ボタンを表示
+        _towerMoneyText.text = default;
+        _towerNameText.text = default;
+        _towerExplanationText.text = default;
+        // タワー購入ボタンなどを表示
+        _buyObjects.SetActive(false);
+        // タワーのステータスを非表示
+        _towerStatesFolder.SetActive(false);
+        // バレットのステータスを非表示
+        _bulletStatesFolder.SetActive(false);
     }
 
     #endregion
