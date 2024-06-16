@@ -67,6 +67,8 @@ public class ShopMenu : MonoBehaviour {
     private FloatReactiveProperty _towerRange = new FloatReactiveProperty();
     [Tooltip("プレイヤーステータス")]
     private PlayerStatus _playerStatus = default;
+    [Tooltip("バレットが選ばれているか")]
+    private bool _isBullet = false;
     [SerializeField, Tooltip("タワーの選択ボタン")]
     private Image _towerButtonImage = default;
     [SerializeField, Tooltip("バレットの選択ボタン")]
@@ -195,8 +197,18 @@ public class ShopMenu : MonoBehaviour {
             case MapType.Platform:     // 設置可能場所
                 _tileName.text = "プラットフォーム";
                 _tileExplanation.text = "タワー設置可能エリア";
-                // タワー選択ボタンを表示
-                _towerObjects.SetActive(true);
+                // バレットが事前に選ばれているとき
+                if (_isBullet) {
+
+                    // タワー選択ボタンを非表示
+                    _towerObjects.SetActive(false);
+                }
+                // タワーが選ばれているとき
+                else {
+                    // タワー選択ボタンを表示
+                    _towerObjects.SetActive(true);
+
+                }
                 // 購入ボタンを表示
                 _buyButton.SetActive(true);
                 // 選択ボタンを非表示
@@ -379,6 +391,7 @@ public class ShopMenu : MonoBehaviour {
         // Enumによって、変更
         switch (type) {
             case TOWER_NAME:
+                _isBullet = false;
                 // タワーボタンの色を暗くする
                 _towerButtonImage.color = Color.gray;
                 // バレットボタンの色を明るくする
@@ -389,6 +402,7 @@ public class ShopMenu : MonoBehaviour {
                 _bulletObjects.SetActive(false);
                 break;
             case BULLET_NAME:
+                _isBullet = true;
                 // タワーボタンの色を明るくする
                 _towerButtonImage.color = Color.white;
                 // バレットボタンの色を暗くする
